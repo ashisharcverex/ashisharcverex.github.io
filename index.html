@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <script>
+    (function () {
+      var saved = localStorage.getItem('theme');
+      if (saved === 'dark' || saved === 'light') {
+        document.documentElement.setAttribute('data-theme', saved);
+      }
+    })();
+  </script>
+  <meta charset="UTF-8">
+  <title>arcverex</title>
+  <meta name="description" content="arcverex: RL environments for training hardware-verification agents">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Open Graph -->
+  <meta property="og:url" content="https://ashisharcverex.github.io">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="arcverex">
+  <meta property="og:description" content="RL environments for training hardware-verification agents">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="arcverex">
+  <meta name="twitter:description" content="RL environments for training hardware-verification agents">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #fff;
+      --fg: #000;
+      --dim: #555;
+      --accent-bg: hsl(210, 60%, 90%);
+      --accent-fg: hsl(210, 70%, 38%);
+      --muted-bg: #f9f8f8;
+      --muted-border: #d8d8d8;
+      --rule: #333;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #0a0d12;
+        --fg: #e8e8e8;
+        --dim: #9a9a9a;
+        --accent-bg: hsl(210, 40%, 18%);
+        --accent-fg: hsl(210, 70%, 72%);
+        --muted-bg: #161a20;
+        --muted-border: #2a2f36;
+        --rule: #b0b0b0;
+      }
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #0a0d12;
+      --fg: #e8e8e8;
+      --dim: #9a9a9a;
+      --accent-bg: hsl(210, 40%, 18%);
+      --accent-fg: hsl(210, 70%, 72%);
+      --muted-bg: #161a20;
+      --muted-border: #2a2f36;
+      --rule: #b0b0b0;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      background: var(--muted-bg);
+      color: var(--fg);
+      border: 1px solid var(--muted-border);
+      border-radius: 999px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      font-family: inherit;
+    }
+
+    .theme-toggle:hover {
+      border-color: var(--rule);
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      position: relative;
+      background: var(--bg);
+      color: var(--fg);
+    }
+
+    .bg-art {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+      opacity: 0.12;
+    }
+
+    .bg-art-track {
+      display: flex;
+      width: max-content;
+      height: 100%;
+      animation: marquee 120s linear infinite;
+    }
+
+    .bg-art-track svg {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    .bg-art-track svg:nth-child(even) {
+      transform: scaleX(-1);
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+
+    .header {
+      text-align: center;
+      margin: 60px 0 80px;
+    }
+
+    .header .logo {
+      font-size: 3em;
+      margin-bottom: 0;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+
+    .header .logo .accent {
+      color: var(--accent-fg);
+    }
+
+    .columns {
+      display: flex;
+      gap: 40px;
+      max-width: 1040px;
+      margin: 0 auto;
+      align-items: flex-start;
+    }
+
+    .col {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .col-blog {
+      flex: 0 0 700px;
+      font-size: 120%;
+      line-height: 1.6em;
+    }
+
+    .col h2 {
+      margin-top: 60px;
+      margin-bottom: 0;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    /* About column */
+    .col-about {
+      flex: 0 0 300px;
+    }
+
+    .col-about p {
+      background: var(--muted-bg);
+      padding: 0 16px;
+      margin: 0;
+    }
+
+    .col-about p + p {
+      padding-top: 1em;
+    }
+
+    .col-about p:first-of-type {
+      padding-top: 14px;
+    }
+
+    .col-about p:last-of-type {
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--muted-border);
+    }
+
+    a[href^="mailto:"] {
+      color: var(--accent-fg);
+      text-decoration: underline;
+    }
+
+    /* Blog column */
+    .col-blog {
+      --indent: 16px;
+    }
+
+    .col-blog .date {
+      padding-bottom: 2px;
+      text-transform: uppercase;
+      font-weight: bold;
+      font-size: 80%;
+      color: var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-top: 24px;
+    }
+
+    .col-blog .date:first-of-type {
+      margin-top: 60px;
+    }
+
+    .note,
+    .paper {
+      display: block;
+      text-decoration: none;
+      color: var(--fg);
+      border-bottom: 1px solid var(--muted-border);
+    }
+
+    .note:hover,
+    .paper:hover {
+      padding-left: calc(var(--indent) - 2px);
+      border-left: 2px solid var(--fg);
+    }
+
+    .paper {
+      background: var(--accent-bg);
+      padding: 22px 16px 22px var(--indent);
+    }
+
+    .paper h3 {
+      font-size: 1.3em;
+      margin-top: 0;
+      margin-bottom: 12px;
+    }
+
+    .paper .byline {
+      font-style: italic;
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+
+    .paper .description {
+      margin: 0;
+    }
+
+    .note {
+      padding: 14px 16px 14px var(--indent);
+      background: var(--muted-bg);
+    }
+
+    .note h3,
+    .note .description {
+      margin: 0;
+      display: inline;
+    }
+
+    .note h3 {
+      font-size: 100%;
+    }
+
+    .note .description::before {
+      content: " - ";
+      opacity: 0.5;
+      margin-left: 2px;
+      margin-right: 2px;
+    }
+
+    /* Team section */
+    .team-section {
+      max-width: 1040px;
+      margin: 80px auto 0;
+    }
+
+    .team-section h2 {
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--rule);
+      font-size: 14px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(4, max-content);
+      justify-content: center;
+      gap: 24px 56px;
+    }
+
+    .member a {
+      color: var(--fg);
+    }
+
+    .member strong {
+      display: block;
+    }
+
+    .member i {
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    .hiring {
+      margin-top: 24px;
+      font-size: 13px;
+      color: var(--dim);
+    }
+
+    @media (max-width: 1100px) {
+      .columns {
+        flex-direction: column;
+        gap: 50px;
+        max-width: 700px;
+      }
+
+      .col {
+        max-width: 100%;
+      }
+
+      .col-about,
+      .col-blog {
+        flex: 1;
+        width: 100%;
+      }
+
+      .col-blog {
+        --indent: 20px;
+      }
+
+      .team-section {
+        max-width: 700px;
+      }
+    }
+
+    @media (max-width: 500px) {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <button class="theme-toggle" type="button" aria-label="Toggle dark mode" onclick="(function(b){var d=document.documentElement;var cur=d.getAttribute('data-theme');var sysDark=matchMedia('(prefers-color-scheme: dark)').matches;var isDark=cur?cur==='dark':sysDark;var next=isDark?'light':'dark';d.setAttribute('data-theme',next);localStorage.setItem('theme',next);b.textContent=next==='dark'?'☀':'☾';})(this)"></button>
+  <script>
+    (function () {
+      var btn = document.querySelector('.theme-toggle');
+      var d = document.documentElement;
+      var cur = d.getAttribute('data-theme');
+      var sysDark = matchMedia('(prefers-color-scheme: dark)').matches;
+      var isDark = cur ? cur === 'dark' : sysDark;
+      btn.textContent = isDark ? '☀' : '☾';
+    })();
+  </script>
+
+  <div class="bg-art" aria-hidden="true">
+    <div class="bg-art-track">
+      <!-- simple circuit-trace motif, repeated for the marquee -->
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 40 H70 V100 H130 V160 H190" />
+        <path d="M10 100 H50 V60 H110 V140 H190" />
+        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
+        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
+        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
+        <rect x="80" y="20" width="40" height="24" rx="3" />
+      </svg>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 40 H70 V100 H130 V160 H190" />
+        <path d="M10 100 H50 V60 H110 V140 H190" />
+        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
+        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
+        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
+        <rect x="80" y="20" width="40" height="24" rx="3" />
+      </svg>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 40 H70 V100 H130 V160 H190" />
+        <path d="M10 100 H50 V60 H110 V140 H190" />
+        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
+        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
+        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
+        <rect x="80" y="20" width="40" height="24" rx="3" />
+      </svg>
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M10 40 H70 V100 H130 V160 H190" />
+        <path d="M10 100 H50 V60 H110 V140 H190" />
+        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
+        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
+        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
+        <rect x="80" y="20" width="40" height="24" rx="3" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="header">
+    <h1 class="logo">arc<span class="accent">verex</span></h1>
+    <b>RL environments for hardware verification</b>
+  </div>
+
+  <div class="columns">
+    <div class="col col-about">
+      <h2>About</h2>
+      <p>arcverex builds reinforcement-learning environments that teach language models how to verify hardware. We partner with frontier labs to train agents on real RTL verification work.</p>
+      <p>Verification is the bottleneck in modern chip design, and it is exactly the kind of open-ended, tool-rich task that RL is built for. Our environments reward finding real bugs &mdash; not gaming the testbench.</p>
+      <p>Each environment is a graded, sandboxed task drawn from production-grade RTL: write the stimulus, prove the property, close the coverage. They teach methodology, not reward hacks.</p>
+      <p>You may already be using models trained on our environments. License our catalog, or commission environments built to your spec.</p>
+      <p>Partnership and licensing inquiries welcome at <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a></p>
+    </div>
+
+    <div class="col col-blog">
+      <div class="date">May 2026</div>
+      <a href="#" class="paper">
+        <h3>The arcverex Verification Environment Catalog</h3>
+        <div class="byline">arcverex, 2026</div>
+        <div class="description">
+          A growing library of graded RL environments spanning RTL design and verification &mdash; from
+          single-module testbench construction to multi-corner coverage closure. Each task ships with a
+          golden reference and a calibrated difficulty rating. Available for licensing.
+        </div>
+      </a>
+      <div class="date">April 2026</div>
+      <a href="#" class="note">
+        <h3>Measuring verification skill, not testbench gaming</h3>
+        <div class="description">How we grade agents on real bug-finding and keep reward hacking out.</div>
+      </a>
+      <div class="date">March 2026</div>
+      <a href="#" class="note">
+        <h3>Why RL environments are the right shape for hardware verification</h3>
+        <div class="description">Open-ended, tool-rich, and objectively gradable &mdash; a short note on the thesis.</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h2>Team</h2>
+    <div class="team-grid">
+      <div class="member">
+        <strong>ashish</strong>
+        <i>founder</i>
+      </div>
+      <div class="member">
+        <strong>name</strong>
+        <i>research</i>
+      </div>
+      <div class="member">
+        <strong>name</strong>
+        <i>research</i>
+      </div>
+      <div class="member">
+        <strong>name</strong>
+        <i>engineering</i>
+      </div>
+    </div>
+    <p class="hiring">If you're interested in joining our team, please reach out to <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a></p>
+  </div>
+</body>
+
+</html>
