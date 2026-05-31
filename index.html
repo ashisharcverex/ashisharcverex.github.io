@@ -108,7 +108,7 @@
       pointer-events: none;
       z-index: -1;
       overflow: hidden;
-      opacity: 0.12;
+      opacity: 0.16;
     }
 
     .bg-art-track {
@@ -368,38 +368,72 @@
 
   <div class="bg-art" aria-hidden="true">
     <div class="bg-art-track">
-      <!-- simple circuit-trace motif, repeated for the marquee -->
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M10 40 H70 V100 H130 V160 H190" />
-        <path d="M10 100 H50 V60 H110 V140 H190" />
-        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
-        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
-        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
-        <rect x="80" y="20" width="40" height="24" rx="3" />
+      <!-- RTL simulator waveform panel, repeated for the marquee -->
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+        <!-- clk -->
+        <path d="M0 8 H20 V32 H40 V8 H60 V32 H80 V8 H100 V32 H120 V8 H140 V32 H160 V8 H180 V32 H200 V8 H220 V32 H240 V8 H260 V32 H280 V8 H300 V32 H320 V8 H340 V32 H360 V8 H380 V32 H400 V8 H420 V32 H440 V8 H460 V32 H480 V8 H500 V32 H520 V8 H540 V32 H560 V8 H580 V32 H600 V8" />
+        <!-- data -->
+        <path d="M0 72 H60 V48 H140 V72 H180 V48 H280 V72 H320 V48 H380 V72 H460 V48 H540 V72 H600" />
+        <!-- bus -->
+        <path d="M0 100 L8 88 H92 L100 100 L108 88 H212 L220 100 L228 88 H352 L360 100 L368 88 H472 L480 100 L488 88 H600" />
+        <path d="M0 100 L8 112 H92 L100 100 L108 112 H212 L220 100 L228 112 H352 L360 100 L368 112 H472 L480 100 L488 112 H600" />
+        <!-- data -->
+        <path d="M0 128 H40 V152 H120 V128 H200 V152 H240 V128 H340 V152 H420 V128 H500 V152 H560 V128 H600" />
+        <!-- clk/2 -->
+        <path d="M0 168 H40 V192 H80 V168 H120 V192 H160 V168 H200 V192 H240 V168 H280 V192 H320 V168 H360 V192 H400 V168 H440 V192 H480 V168 H520 V192 H560 V168 H600" />
+        <!-- data -->
+        <path d="M0 232 H80 V208 H160 V232 H220 V208 H300 V232 H360 V208 H440 V232 H520 V208 H600" />
+        <!-- bus -->
+        <path d="M0 260 L8 248 H72 L80 260 L88 248 H192 L200 260 L208 248 H312 L320 260 L328 248 H432 L440 260 L448 248 H552 L560 260 L568 248 H600" />
+        <path d="M0 260 L8 272 H72 L80 260 L88 272 H192 L200 260 L208 272 H312 L320 260 L328 272 H432 L440 260 L448 272 H552 L560 260 L568 272 H600" />
+        <!-- data -->
+        <path d="M0 288 H60 V312 H100 V288 H180 V312 H260 V288 H320 V312 H400 V288 H480 V312 H540 V288 H600" />
+        <!-- clk -->
+        <path d="M0 328 H20 V352 H40 V328 H60 V352 H80 V328 H100 V352 H120 V328 H140 V352 H160 V328 H180 V352 H200 V328 H220 V352 H240 V328 H260 V352 H280 V328 H300 V352 H320 V328 H340 V352 H360 V328 H380 V352 H400 V328 H420 V352 H440 V328 H460 V352 H480 V328 H500 V352 H520 V328 H540 V352 H560 V328 H580 V352 H600 V328" />
+        <!-- data -->
+        <path d="M0 392 H100 V368 H200 V392 H260 V368 H360 V392 H420 V368 H520 V392 H600" />
       </svg>
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M10 40 H70 V100 H130 V160 H190" />
-        <path d="M10 100 H50 V60 H110 V140 H190" />
-        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
-        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
-        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
-        <rect x="80" y="20" width="40" height="24" rx="3" />
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M0 8 H20 V32 H40 V8 H60 V32 H80 V8 H100 V32 H120 V8 H140 V32 H160 V8 H180 V32 H200 V8 H220 V32 H240 V8 H260 V32 H280 V8 H300 V32 H320 V8 H340 V32 H360 V8 H380 V32 H400 V8 H420 V32 H440 V8 H460 V32 H480 V8 H500 V32 H520 V8 H540 V32 H560 V8 H580 V32 H600 V8" />
+        <path d="M0 72 H60 V48 H140 V72 H180 V48 H280 V72 H320 V48 H380 V72 H460 V48 H540 V72 H600" />
+        <path d="M0 100 L8 88 H92 L100 100 L108 88 H212 L220 100 L228 88 H352 L360 100 L368 88 H472 L480 100 L488 88 H600" />
+        <path d="M0 100 L8 112 H92 L100 100 L108 112 H212 L220 100 L228 112 H352 L360 100 L368 112 H472 L480 100 L488 112 H600" />
+        <path d="M0 128 H40 V152 H120 V128 H200 V152 H240 V128 H340 V152 H420 V128 H500 V152 H560 V128 H600" />
+        <path d="M0 168 H40 V192 H80 V168 H120 V192 H160 V168 H200 V192 H240 V168 H280 V192 H320 V168 H360 V192 H400 V168 H440 V192 H480 V168 H520 V192 H560 V168 H600" />
+        <path d="M0 232 H80 V208 H160 V232 H220 V208 H300 V232 H360 V208 H440 V232 H520 V208 H600" />
+        <path d="M0 260 L8 248 H72 L80 260 L88 248 H192 L200 260 L208 248 H312 L320 260 L328 248 H432 L440 260 L448 248 H552 L560 260 L568 248 H600" />
+        <path d="M0 260 L8 272 H72 L80 260 L88 272 H192 L200 260 L208 272 H312 L320 260 L328 272 H432 L440 260 L448 272 H552 L560 260 L568 272 H600" />
+        <path d="M0 288 H60 V312 H100 V288 H180 V312 H260 V288 H320 V312 H400 V288 H480 V312 H540 V288 H600" />
+        <path d="M0 328 H20 V352 H40 V328 H60 V352 H80 V328 H100 V352 H120 V328 H140 V352 H160 V328 H180 V352 H200 V328 H220 V352 H240 V328 H260 V352 H280 V328 H300 V352 H320 V328 H340 V352 H360 V328 H380 V352 H400 V328 H420 V352 H440 V328 H460 V352 H480 V328 H500 V352 H520 V328 H540 V352 H560 V328 H580 V352 H600 V328" />
+        <path d="M0 392 H100 V368 H200 V392 H260 V368 H360 V392 H420 V368 H520 V392 H600" />
       </svg>
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M10 40 H70 V100 H130 V160 H190" />
-        <path d="M10 100 H50 V60 H110 V140 H190" />
-        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
-        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
-        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
-        <rect x="80" y="20" width="40" height="24" rx="3" />
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M0 8 H20 V32 H40 V8 H60 V32 H80 V8 H100 V32 H120 V8 H140 V32 H160 V8 H180 V32 H200 V8 H220 V32 H240 V8 H260 V32 H280 V8 H300 V32 H320 V8 H340 V32 H360 V8 H380 V32 H400 V8 H420 V32 H440 V8 H460 V32 H480 V8 H500 V32 H520 V8 H540 V32 H560 V8 H580 V32 H600 V8" />
+        <path d="M0 72 H60 V48 H140 V72 H180 V48 H280 V72 H320 V48 H380 V72 H460 V48 H540 V72 H600" />
+        <path d="M0 100 L8 88 H92 L100 100 L108 88 H212 L220 100 L228 88 H352 L360 100 L368 88 H472 L480 100 L488 88 H600" />
+        <path d="M0 100 L8 112 H92 L100 100 L108 112 H212 L220 100 L228 112 H352 L360 100 L368 112 H472 L480 100 L488 112 H600" />
+        <path d="M0 128 H40 V152 H120 V128 H200 V152 H240 V128 H340 V152 H420 V128 H500 V152 H560 V128 H600" />
+        <path d="M0 168 H40 V192 H80 V168 H120 V192 H160 V168 H200 V192 H240 V168 H280 V192 H320 V168 H360 V192 H400 V168 H440 V192 H480 V168 H520 V192 H560 V168 H600" />
+        <path d="M0 232 H80 V208 H160 V232 H220 V208 H300 V232 H360 V208 H440 V232 H520 V208 H600" />
+        <path d="M0 260 L8 248 H72 L80 260 L88 248 H192 L200 260 L208 248 H312 L320 260 L328 248 H432 L440 260 L448 248 H552 L560 260 L568 248 H600" />
+        <path d="M0 260 L8 272 H72 L80 260 L88 272 H192 L200 260 L208 272 H312 L320 260 L328 272 H432 L440 260 L448 272 H552 L560 260 L568 272 H600" />
+        <path d="M0 288 H60 V312 H100 V288 H180 V312 H260 V288 H320 V312 H400 V288 H480 V312 H540 V288 H600" />
+        <path d="M0 328 H20 V352 H40 V328 H60 V352 H80 V328 H100 V352 H120 V328 H140 V352 H160 V328 H180 V352 H200 V328 H220 V352 H240 V328 H260 V352 H280 V328 H300 V352 H320 V328 H340 V352 H360 V328 H380 V352 H400 V328 H420 V352 H440 V328 H460 V352 H480 V328 H500 V352 H520 V328 H540 V352 H560 V328 H580 V352 H600 V328" />
+        <path d="M0 392 H100 V368 H200 V392 H260 V368 H360 V392 H420 V368 H520 V392 H600" />
       </svg>
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M10 40 H70 V100 H130 V160 H190" />
-        <path d="M10 100 H50 V60 H110 V140 H190" />
-        <circle cx="70" cy="100" r="5" fill="currentColor" stroke="none" />
-        <circle cx="130" cy="160" r="5" fill="currentColor" stroke="none" />
-        <circle cx="110" cy="140" r="5" fill="currentColor" stroke="none" />
-        <rect x="80" y="20" width="40" height="24" rx="3" />
+      <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round">
+        <path d="M0 8 H20 V32 H40 V8 H60 V32 H80 V8 H100 V32 H120 V8 H140 V32 H160 V8 H180 V32 H200 V8 H220 V32 H240 V8 H260 V32 H280 V8 H300 V32 H320 V8 H340 V32 H360 V8 H380 V32 H400 V8 H420 V32 H440 V8 H460 V32 H480 V8 H500 V32 H520 V8 H540 V32 H560 V8 H580 V32 H600 V8" />
+        <path d="M0 72 H60 V48 H140 V72 H180 V48 H280 V72 H320 V48 H380 V72 H460 V48 H540 V72 H600" />
+        <path d="M0 100 L8 88 H92 L100 100 L108 88 H212 L220 100 L228 88 H352 L360 100 L368 88 H472 L480 100 L488 88 H600" />
+        <path d="M0 100 L8 112 H92 L100 100 L108 112 H212 L220 100 L228 112 H352 L360 100 L368 112 H472 L480 100 L488 112 H600" />
+        <path d="M0 128 H40 V152 H120 V128 H200 V152 H240 V128 H340 V152 H420 V128 H500 V152 H560 V128 H600" />
+        <path d="M0 168 H40 V192 H80 V168 H120 V192 H160 V168 H200 V192 H240 V168 H280 V192 H320 V168 H360 V192 H400 V168 H440 V192 H480 V168 H520 V192 H560 V168 H600" />
+        <path d="M0 232 H80 V208 H160 V232 H220 V208 H300 V232 H360 V208 H440 V232 H520 V208 H600" />
+        <path d="M0 260 L8 248 H72 L80 260 L88 248 H192 L200 260 L208 248 H312 L320 260 L328 248 H432 L440 260 L448 248 H552 L560 260 L568 248 H600" />
+        <path d="M0 260 L8 272 H72 L80 260 L88 272 H192 L200 260 L208 272 H312 L320 260 L328 272 H432 L440 260 L448 272 H552 L560 260 L568 272 H600" />
+        <path d="M0 288 H60 V312 H100 V288 H180 V312 H260 V288 H320 V312 H400 V288 H480 V312 H540 V288 H600" />
+        <path d="M0 328 H20 V352 H40 V328 H60 V352 H80 V328 H100 V352 H120 V328 H140 V352 H160 V328 H180 V352 H200 V328 H220 V352 H240 V328 H260 V352 H280 V328 H300 V352 H320 V328 H340 V352 H360 V328 H380 V352 H400 V328 H420 V352 H440 V328 H460 V352 H480 V328 H500 V352 H520 V328 H540 V352 H560 V328 H580 V352 H600 V328" />
+        <path d="M0 392 H100 V368 H200 V392 H260 V368 H360 V392 H420 V368 H520 V392 H600" />
       </svg>
     </div>
   </div>
@@ -415,7 +449,7 @@
       <p>We are hardware engineers anticipating the acceleration of our workflows. Tired of waiting, we are building reinforcement-learning environments that teach LLMs how to do real hardware engineering.</p>
       <p>Hardware is exactly the kind of open-ended development domain that models should thrive in, yet data scarcity and poor data quality blights model training. Our environments teach real engineering scenarios and reward real engineering outcomes.</p>
       <p>Each environment is a graded, sandboxed task drawn from real workflows: read the spec, write the RTL, build the stimulus, close the loop. They teach thoughtfulness and methodology, not reward hacks.</p>
-      <p>Your models could be the next gen tool for building chips. Help us help you.</p>
+      <p>Your models could be the next gen tool for building chips. Allow us to help.</p>
       <p>Partnership and licensing inquiries welcome at <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a></p>
     </div>
   </div>
