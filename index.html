@@ -166,7 +166,7 @@
     .columns {
       display: flex;
       gap: 40px;
-      max-width: 560px;
+      max-width: 760px;
       margin: 0 auto;
       align-items: flex-start;
     }
@@ -174,12 +174,6 @@
     .col {
       flex: 1;
       min-width: 0;
-    }
-
-    .col-blog {
-      flex: 0 0 700px;
-      font-size: 120%;
-      line-height: 1.6em;
     }
 
     .col h2 {
@@ -192,26 +186,26 @@
       font-weight: bold;
     }
 
-    /* About column */
-    .col-about {
+    /* Boxed text columns (About, Careers) */
+    .col-card {
       flex: 1;
     }
 
-    .col-about p {
+    .col-card p {
       background: var(--muted-bg);
       padding: 0 16px;
       margin: 0;
     }
 
-    .col-about p + p {
+    .col-card p + p {
       padding-top: 1em;
     }
 
-    .col-about p:first-of-type {
+    .col-card p:first-of-type {
       padding-top: 14px;
     }
 
-    .col-about p:last-of-type {
+    .col-card p:last-of-type {
       padding-bottom: 14px;
       border-bottom: 1px solid var(--muted-border);
     }
@@ -221,151 +215,20 @@
       text-decoration: underline;
     }
 
-    /* Blog column */
-    .col-blog {
-      --indent: 16px;
-    }
-
-    .col-blog .date {
-      padding-bottom: 2px;
-      text-transform: uppercase;
-      font-weight: bold;
-      font-size: 80%;
-      color: var(--rule);
-      border-bottom: 1px solid var(--rule);
-      margin-top: 24px;
-    }
-
-    .col-blog .date:first-of-type {
-      margin-top: 60px;
-    }
-
-    .note,
-    .paper {
-      display: block;
-      text-decoration: none;
-      color: var(--fg);
-      border-bottom: 1px solid var(--muted-border);
-    }
-
-    .note:hover,
-    .paper:hover {
-      padding-left: calc(var(--indent) - 2px);
-      border-left: 2px solid var(--fg);
-    }
-
-    .paper {
-      background: var(--accent-bg);
-      padding: 22px 16px 22px var(--indent);
-    }
-
-    .paper h3 {
-      font-size: 1.3em;
-      margin-top: 0;
-      margin-bottom: 12px;
-    }
-
-    .paper .byline {
-      font-style: italic;
-      opacity: 0.6;
-      margin-bottom: 12px;
-    }
-
-    .paper .description {
-      margin: 0;
-    }
-
-    .note {
-      padding: 14px 16px 14px var(--indent);
-      background: var(--muted-bg);
-    }
-
-    .note h3,
-    .note .description {
-      margin: 0;
-      display: inline;
-    }
-
-    .note h3 {
-      font-size: 100%;
-    }
-
-    .note .description::before {
-      content: " - ";
-      opacity: 0.5;
-      margin-left: 2px;
-      margin-right: 2px;
-    }
-
-    /* Team section */
-    .team-section {
-      max-width: 1040px;
-      margin: 80px auto 0;
-    }
-
-    .team-section h2 {
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--rule);
-      font-size: 14px;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(4, max-content);
-      justify-content: center;
-      gap: 24px 56px;
-    }
-
-    .member a {
-      color: var(--fg);
-    }
-
-    .member strong {
-      display: block;
-    }
-
-    .member i {
-      font-size: 13px;
-      color: var(--dim);
-    }
-
-    .hiring {
-      margin-top: 24px;
-      font-size: 13px;
-      color: var(--dim);
-    }
-
-    @media (max-width: 1100px) {
+    @media (max-width: 760px) {
       .columns {
         flex-direction: column;
         gap: 50px;
-        max-width: 700px;
+        max-width: 420px;
       }
 
       .col {
         max-width: 100%;
       }
 
-      .col-about,
-      .col-blog {
+      .col-card {
         flex: 1;
         width: 100%;
-      }
-
-      .col-blog {
-        --indent: 20px;
-      }
-
-      .team-section {
-        max-width: 700px;
-      }
-    }
-
-    @media (max-width: 500px) {
-      .team-grid {
-        grid-template-columns: repeat(2, 1fr);
       }
     }
   </style>
@@ -439,13 +302,21 @@
   </div>
 
   <div class="columns">
-    <div class="col col-about">
+    <div class="col col-card col-about">
       <h2>About ARCVEREX</h2>
       <p>We are hardware engineers anticipating the acceleration of our workflows. Tired of waiting, we are building reinforcement-learning environments that teach LLMs to become capable hardware engineers.</p>
       <p>Hardware is exactly the kind of open-ended development domain that models should thrive in, yet data scarcity and poor data quality blights model training. Our environments teach real engineering scenarios and reward real engineering outcomes.</p>
       <p>Each environment is a graded, sandboxed task drawn from our workflows: read the spec, write the RTL, build the stimulus, close the loop. They teach thoughtfulness and methodology, not reward hacks.</p>
       <p>Your model could be the next gen tool for building chips. Allow us to help.</p>
       <p>Inquiries welcome at <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a></p>
+    </div>
+
+    <div class="col col-card col-careers">
+      <h2>Careers</h2>
+      <p>We are a small team of hardware engineers and researchers building the environments that will train the next generation of design tools. We are growing.</p>
+      <p>If you have built RTL in anger, care about verification methodology, or want to shape how models learn to do real engineering work, we would like to hear from you.</p>
+      <p>We hire for depth and curiosity over credentials. Tell us what you have built.</p>
+      <p>Reach out at <a href="mailto:careers@arcverex.io">careers@arcverex.io</a></p>
     </div>
   </div>
 </body>
