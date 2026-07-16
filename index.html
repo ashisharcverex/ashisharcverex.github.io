@@ -102,53 +102,83 @@
       color: var(--fg);
     }
 
+    /* Background art tuning. Kept as vars so the look is adjustable in one place;
+       the fallbacks are the values that ship. */
     .bg-art {
       position: fixed;
       inset: 0;
       pointer-events: none;
       z-index: -1;
       overflow: hidden;
-      opacity: 0.16;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: clamp(40px, 8vh, 92px);
+      opacity: var(--art-opacity, 0.6);
+      color: var(--art-color, var(--accent-fg));
     }
 
-    .wf-defs {
-      position: absolute;
-    }
-
-    .wf-line {
+    .bg-art svg {
       width: 100%;
-      overflow: hidden;
-      line-height: 0;
-    }
-
-    .wf-track {
-      display: flex;
-      width: max-content;
-      animation: wfscroll 200s linear infinite;
-      will-change: transform;
-    }
-
-    .wf-track .wf {
-      height: clamp(58px, 10vh, 100px);
-      width: auto;
+      height: 100%;
       display: block;
-      color: var(--fg);
     }
 
-    /* 2 identical lines, a half-period out of phase */
-    .wf-line:nth-of-type(2) .wf-track { animation-delay: -33.333s; }
-
-    @keyframes wfscroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
+    /* package + cell grid: drawn once per cycle, never animated */
+    .die-line {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1.6 * var(--art-weight, 2.5));
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      .wf-track { animation: none; }
+    .die-cell {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(0.8 * var(--art-weight, 2.5));
+      opacity: 0.35;
+    }
+
+    .mos {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1.7 * var(--art-weight, 2.5));
+      stroke-linecap: square;
+    }
+
+    /* a route trace dims but stays put once its part has landed, so the die
+       accumulates visible wiring over a cycle */
+    .trace {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1 * var(--art-weight, 2.5));
+      opacity: 0.5;
+    }
+
+    .flash {
+      fill: currentColor;
+    }
+
+    /* the bus linking the two dies: a static trace with a dashed overlay whose
+       offset animates, so the dashes read as charge moving along the wire */
+    .wire {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1 * var(--art-weight, 2.5));
+      stroke-linejoin: round;
+      opacity: 0.3;
+    }
+
+    .pulse {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1.3 * var(--art-weight, 2.5));
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.85;
+    }
+
+    /* verification sweep bar */
+    .scan {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: calc(1.8 * var(--art-weight, 2.5));
+      stroke-linecap: round;
     }
 
     .header {
@@ -248,27 +278,387 @@
   </script>
 
   <div class="bg-art" aria-hidden="true">
-    <svg class="wf-defs" width="0" height="0" aria-hidden="true" focusable="false">
-      <defs>
-        <g id="wfunit">
-          <!-- translate x=0 so content spans the viewBox exactly (one period = 1134.31); any left margin would pad the seam and break the repeat -->
-          <g transform="translate(0.00,97.00) scale(1,-1)">
-            <path d="M48.09 0.00 L42.20 19.91 L17.70 19.91 L11.80 0.00 L3.09 0.00 L24.50 69.80 L35.59 69.80 L57.00 0.00 L48.09 0.00 Z M30.41 60.91 L29.50 60.91 L19.70 27.20 L40.20 27.20 L30.41 60.91 Z M77.41 0.00 L69.00 0.00 L69.00 69.80 L94.41 69.80 Q104.09 69.80 109.19 64.50 Q114.30 59.20 114.30 49.70 Q114.30 41.20 109.89 36.09 Q105.50 31.00 97.09 30.20 L114.91 0.00 L105.50 0.00 L88.50 29.80 L77.41 29.80 L77.41 0.00 Z M94.20 36.91 Q99.50 36.91 102.45 39.55 Q105.41 42.20 105.41 47.09 L105.41 52.30 Q105.41 57.20 102.45 59.84 Q99.50 62.50 94.20 62.50 L77.41 62.50 L77.41 36.91 L94.20 36.91 Z M152.30 -1.20 Q139.50 -1.20 133.25 8.09 Q127.00 17.41 127.00 34.91 Q127.00 52.41 133.25 61.70 Q139.50 71.00 152.30 71.00 Q157.09 71.00 160.59 69.70 Q164.09 68.41 166.59 66.20 Q169.09 64.00 170.80 61.25 Q172.50 58.50 173.80 55.70 L166.59 52.41 Q165.70 54.70 164.50 56.75 Q163.30 58.80 161.64 60.34 Q160.00 61.91 157.75 62.80 Q155.50 63.70 152.30 63.70 Q144.00 63.70 139.95 57.39 Q135.91 51.09 135.91 40.59 L135.91 29.20 Q135.91 18.70 139.95 12.39 Q144.00 6.09 152.30 6.09 Q155.50 6.09 157.75 7.00 Q160.00 7.91 161.64 9.45 Q163.30 11.00 164.50 13.05 Q165.70 15.09 166.59 17.41 L173.80 14.09 Q172.50 11.20 170.80 8.50 Q169.09 5.80 166.59 3.59 Q164.09 1.41 160.59 0.09 Q157.09 -1.20 152.30 -1.20 Z M204.30 0.00 L183.59 69.80 L192.50 69.80 L202.41 34.91 L209.91 8.50 L210.41 8.50 L217.91 34.91 L227.80 69.80 L236.41 69.80 L215.70 0.00 L204.30 0.00 Z M249.00 0.00 L249.00 69.80 L292.00 69.80 L292.00 62.50 L257.41 62.50 L257.41 39.00 L290.80 39.00 L290.80 31.70 L257.41 31.70 L257.41 7.30 L292.00 7.30 L292.00 0.00 L249.00 0.00 Z M317.41 0.00 L309.00 0.00 L309.00 69.80 L334.41 69.80 Q344.09 69.80 349.19 64.50 Q354.30 59.20 354.30 49.70 Q354.30 41.20 349.89 36.09 Q345.50 31.00 337.09 30.20 L354.91 0.00 L345.50 0.00 L328.50 29.80 L317.41 29.80 L317.41 0.00 Z M334.20 36.91 Q339.50 36.91 342.45 39.55 Q345.41 42.20 345.41 47.09 L345.41 52.30 Q345.41 57.20 342.45 59.84 Q339.50 62.50 334.20 62.50 L317.41 62.50 L317.41 36.91 L334.20 36.91 Z M369.00 0.00 L369.00 69.80 L412.00 69.80 L412.00 62.50 L377.41 62.50 L377.41 39.00 L410.80 39.00 L410.80 31.70 L377.41 31.70 L377.41 7.30 L412.00 7.30 L412.00 0.00 L369.00 0.00 Z" fill="currentColor" fill-rule="nonzero"/>
-            <g fill="none" stroke="currentColor" stroke-width="7.21" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="6">
-              <!-- the X strokes continue rightward as a crossing waveform, ending on a flat exactly at the tile seam (x=1134.31) -->
-              <path d="M410.00 66.20 L444.00 66.20 L506.59 3.61 L576.59 3.61 L639.18 66.20 L701.77 66.20 L764.36 3.61 L826.95 3.61 L889.54 66.20 L952.13 66.20 L1014.72 3.61 L1077.31 3.61 L1134.31 3.61"/>
-              <path d="M410.00 3.61 L444.00 3.61 L506.59 66.20 L576.59 66.20 L639.18 3.61 L701.77 3.61 L764.36 66.20 L826.95 66.20 L889.54 3.61 L952.13 3.61 L1014.72 66.20 L1077.31 66.20 L1134.31 66.20"/>
-              <!-- the incoming rails land on the A's left edge (top near the apex, bottom at the foot) so the A extends from its left side; seam stays a flat for seamless tiling -->
-              <path d="M0.00 66.20 L23.40 66.20"/>
-              <path d="M0.00 3.61 L4.20 3.61"/>
-            </g>
-          </g>
-        </g>
-      </defs>
-    </svg>
-    <div class="wf-line"><div class="wf-track"><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg></div></div>
-    <div class="wf-line"><div class="wf-track"><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg><svg class="wf" viewBox="0 0 1134.31 123.0"><use href="#wfunit"/></svg></div></div>
+    <!-- viewBox is rewritten to the viewport size on load/resize, so 1 unit == 1 CSS px -->
+    <svg id="fab" focusable="false"></svg>
   </div>
+
+  <script>
+    (function () {
+      var NS = 'http://www.w3.org/2000/svg';
+      var svg = document.getElementById('fab');
+
+      // Mirrors .columns max-width + body padding so each die lands in the gutter
+      // the text column leaves free. The cards are opaque, so a die behind them
+      // would be painted out entirely.
+      var CONTENT_W = 560, BODY_PAD = 20;
+      var GLYPH_W = 26;                       // natural width of the MOSFET glyph
+      var DIE_MIN = 150, DIE_INSET = 170;
+      // A gutter must fit the smallest die plus its turn lanes, or the routing
+      // runs off-screen. Tighter than that and there is nowhere to put the art.
+      var MIN_GUTTER = DIE_MIN + DIE_INSET;
+
+      var W = 0, H = 0, dies = [], gen = 0, timers = [], pulseAnims = [];
+      var edgeL = 0, edgeR = 0;          // x bounds of the text column
+
+      function el(name, attrs) {
+        var n = document.createElementNS(NS, name);
+        for (var k in attrs) n.setAttribute(k, attrs[k]);
+        return n;
+      }
+
+      function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+      function mkDie(cx, cy, size, cols, rows, side) {
+        var pad = size * 0.12;
+        var cellW = (size - 2 * pad) / cols, cellH = (size - 2 * pad) / rows;
+        return {
+          cx: cx, cy: cy, size: size, cols: cols, rows: rows, side: side,
+          x: cx - size / 2, y: cy - size / 2, pad: pad,
+          cellW: cellW, cellH: cellH,
+          out: Math.max(12, size * 0.07),
+          // shrink the glyph when a cell is too small to hold it at full size
+          k: Math.min(1, (cellW - 8) / GLYPH_W)
+        };
+      }
+
+      // Place a die in each gutter, measured from the live viewport.
+      function computeDies() {
+        W = Math.max(320, window.innerWidth);
+        H = Math.max(320, window.innerHeight);
+        svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+
+        var contentW = Math.min(CONTENT_W, W - 2 * BODY_PAD);
+        var gutter = (W - contentW) / 2;
+        edgeL = gutter;
+        edgeR = W - gutter;
+        dies = [];
+
+        if (gutter < MIN_GUTTER) {
+          // no usable gutter (narrow viewports): one centred die, mostly covered
+          var s = clamp(Math.min(W, H) - 140, DIE_MIN, 400);
+          dies.push(mkDie(W / 2, H / 2, s, s >= 240 ? 6 : 4, s >= 240 ? 6 : 4, 'both'));
+          return;
+        }
+        var sb = clamp(gutter - DIE_INSET, DIE_MIN, 300);
+        var n = sb >= 240 ? 5 : 4;
+        dies.push(mkDie(gutter / 2, H / 2, sb, n, n, 'left'));
+        dies.push(mkDie(W - gutter / 2, H / 2, sb, n, n, 'right'));
+      }
+
+      function cellCentre(d, i) {
+        var c = i % d.cols, r = Math.floor(i / d.cols);
+        return {
+          x: d.x + d.pad + c * d.cellW + d.cellW / 2,
+          y: d.y + d.pad + r * d.cellH + d.cellH / 2
+        };
+      }
+
+      function buildDie(parent, d) {
+        var g = el('g', {}), i, o = d.out;
+        g.appendChild(el('rect', {
+          x: d.x - o, y: d.y - o, width: d.size + 2 * o, height: d.size + 2 * o,
+          rx: 8, 'class': 'die-line'
+        }));
+        g.appendChild(el('rect', { x: d.x, y: d.y, width: d.size, height: d.size, 'class': 'die-line' }));
+        g.appendChild(el('path', {
+          d: 'M' + (d.x - 16) + ' ' + (d.y - 3) + ' A 13 13 0 0 1 ' + (d.x - 3) + ' ' + (d.y - 16),
+          'class': 'die-line'
+        }));
+        var pins = Math.max(8, Math.round(d.size / 18)), stub = o * 0.5;
+        for (i = 0; i < pins; i++) {
+          var t = d.x - o * 0.4 + (d.size + o * 0.8) * (i + 0.5) / pins;
+          g.appendChild(el('path', { d: 'M' + t + ' ' + (d.y - o) + ' v -' + stub, 'class': 'die-cell' }));
+          g.appendChild(el('path', { d: 'M' + t + ' ' + (d.y + d.size + o) + ' v ' + stub, 'class': 'die-cell' }));
+          var s = d.y - o * 0.4 + (d.size + o * 0.8) * (i + 0.5) / pins;
+          g.appendChild(el('path', { d: 'M' + (d.x - o) + ' ' + s + ' h -' + stub, 'class': 'die-cell' }));
+          g.appendChild(el('path', { d: 'M' + (d.x + d.size + o) + ' ' + s + ' h ' + stub, 'class': 'die-cell' }));
+        }
+        var inset = Math.min(5, d.cellW * 0.12);
+        for (i = 0; i < d.cols * d.rows; i++) {
+          var p = cellCentre(d, i);
+          g.appendChild(el('rect', {
+            x: p.x - d.cellW / 2 + inset, y: p.y - d.cellH / 2 + inset,
+            width: d.cellW - 2 * inset, height: d.cellH - 2 * inset, rx: 2, 'class': 'die-cell'
+          }));
+        }
+        parent.appendChild(g);
+      }
+
+      // MOSFET: gate lead, gate plate, channel, drain/source leads. Drawn about
+      // its own origin so a translate() puts its centre on a cell.
+      function mosfet() {
+        var g = el('g', {});
+        g.appendChild(el('path', {
+          'class': 'mos',
+          d: 'M-13 0 H-5 M-5 -9 V9 M-1 -9 V9 M-1 -5 H7 V-13 M-1 5 H7 V13'
+        }));
+        return g;
+      }
+
+      function tf(x, y, k) { return 'translate(' + x + 'px,' + y + 'px) scale(' + k + ')'; }
+
+      // Walk a polyline by keyframing transform; offsets track segment length so
+      // speed stays even through the turns.
+      function travel(node, pts, k, duration, easing) {
+        var lens = [], total = 0, i;
+        for (i = 1; i < pts.length; i++) {
+          var dd = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+          lens.push(dd); total += dd;
+        }
+        var acc = 0;
+        var frames = pts.map(function (p, j) {
+          if (j > 0) acc += lens[j - 1];
+          return { transform: tf(p[0], p[1], k), offset: total ? acc / total : (j ? 1 : 0) };
+        });
+        return node.animate(frames, { duration: duration, easing: easing, fill: 'forwards' });
+      }
+
+      function polyD(pts) {
+        return pts.map(function (p, i) { return (i ? 'L' : 'M') + p[0] + ' ' + p[1]; }).join(' ');
+      }
+
+      function flash(parent, d, p) {
+        var inset = Math.min(5, d.cellW * 0.12);
+        var r = el('rect', {
+          x: p.x - d.cellW / 2 + inset, y: p.y - d.cellH / 2 + inset,
+          width: d.cellW - 2 * inset, height: d.cellH - 2 * inset, rx: 2, 'class': 'flash'
+        });
+        parent.appendChild(r);
+        r.animate([{ opacity: 0.55 }, { opacity: 0 }], { duration: 520, easing: 'ease-out' })
+          .finished.then(function () { r.remove(); });
+      }
+
+      // Cut each right-angle corner back into a 45-degree chamfer, the way PCB
+      // routing avoids sharp turns.
+      function chamferPath(pts, c) {
+        var d = 'M' + pts[0][0] + ' ' + pts[0][1];
+        for (var i = 1; i < pts.length - 1; i++) {
+          var p = pts[i], a = pts[i - 1], b = pts[i + 1];
+          var l1 = Math.hypot(a[0] - p[0], a[1] - p[1]);
+          var l2 = Math.hypot(b[0] - p[0], b[1] - p[1]);
+          if (!l1 || !l2) continue;
+          var cc = Math.min(c, l1 / 2, l2 / 2);
+          d += ' L' + (p[0] + (a[0] - p[0]) / l1 * cc) + ' ' + (p[1] + (a[1] - p[1]) / l1 * cc);
+          d += ' L' + (p[0] + (b[0] - p[0]) / l2 * cc) + ' ' + (p[1] + (b[1] - p[1]) / l2 * cc);
+        }
+        var last = pts[pts.length - 1];
+        return d + ' L' + last[0] + ' ' + last[1];
+      }
+
+      // Bus between the two dies. Entry rows and horizontal channels are both
+      // shuffled independently, so some wires cross and others run alongside —
+      // pairing exit row i against entry row n-1-i would force every pair to
+      // cross and read as a symmetric fan rather than real routing.
+      function buildWires(parent, reduced) {
+        if (dies.length < 2) return null;            // narrow fallback has one die
+        var L = dies[0], R = dies[1], n = 6, i;
+        var x0 = L.x + L.size + L.out, x1 = R.x - R.out;
+        // Give every wire its own breakout column and its own horizontal channel.
+        // Random x would let two vertical runs land on the same line and merge
+        // into one thick stroke; crossing is wanted, overlapping is not.
+        var stepL = clamp((edgeL - x0 - 24) / n, 7, 14);
+        var stepR = clamp((x1 - edgeR - 24) / n, 7, 14);
+        var lanes = [], rows = [], colL = [], colR = [], dirs = [];
+        for (i = 0; i < n; i++) {
+          lanes.push(70 + (H - 140) * (i + 0.5) / n);
+          rows.push(i);
+          colL.push(x0 + 12 + i * stepL);
+          colR.push(x1 - 12 - i * stepR);
+          dirs.push(i < n / 2 ? -1 : 1);   // half the flow runs right-to-left
+        }
+        shuffle(lanes);
+        shuffle(rows);
+        shuffle(colL);
+        shuffle(colR);
+        shuffle(dirs);
+
+        var g = el('g', {});
+        for (i = 0; i < n; i++) {
+          var y0 = L.y + L.size * (i + 0.5) / n;
+          var y1 = R.y + R.size * (rows[i] + 0.5) / n;
+          var bx0 = colL[i];
+          var bx1 = colR[i];
+          var ch = lanes[i];
+          var pts = [[x0, y0], [bx0, y0], [bx0, ch], [bx1, ch], [bx1, y1], [x1, y1]];
+          var d = chamferPath(pts, 12);
+
+          g.appendChild(el('path', { d: d, 'class': 'wire' }));
+          if (reduced) continue;                     // no travelling charge without motion
+          var pulse = el('path', { d: d, 'class': 'pulse', 'stroke-dasharray': '9 71' });
+          g.appendChild(pulse);
+          // one dash period is 9 + 71; travel exactly that per iteration so the
+          // flow is seamless across repeats
+          pulseAnims.push(pulse.animate([
+            { strokeDashoffset: 0 }, { strokeDashoffset: 80 * dirs[i] }
+          ], {
+            duration: 1300 + Math.random() * 1100,
+            iterations: Infinity,
+            easing: 'linear'
+          }));
+        }
+        parent.appendChild(g);
+        return g;
+      }
+
+      function wait(ms) {
+        return new Promise(function (res) { timers.push(setTimeout(res, ms)); });
+      }
+
+      function shuffle(a) {
+        for (var i = a.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t;
+        }
+        return a;
+      }
+
+      function send(stage, d, cellIdx, mine) {
+        var p = cellCentre(d, cellIdx);
+        var fromLeft = d.side === 'both' ? Math.random() < 0.5 : d.side === 'left';
+        var startX = fromLeft ? -80 : W + 80;
+        // ride an approach lane near the top/bottom edge, then one turn onto the row
+        var laneY = fromLeft ? 60 + Math.random() * H * 0.22 : H - 60 - Math.random() * H * 0.22;
+        var jog = (cellIdx % d.cols) * 6;
+        var turnX = fromLeft ? d.x - d.out - 18 - jog : d.x + d.size + d.out + 18 + jog;
+        var pts = [[startX, laneY], [turnX, laneY], [turnX, p.y], [p.x, p.y]];
+
+        var trace = el('path', { d: polyD(pts), 'class': 'trace' });
+        stage.appendChild(trace);
+        var len = trace.getTotalLength();
+        trace.setAttribute('stroke-dasharray', len);
+        trace.setAttribute('stroke-dashoffset', len);
+
+        var part = mosfet();
+        part.style.transform = tf(pts[0][0], pts[0][1], d.k);
+        stage.appendChild(part);
+
+        var dur = 1900;
+        trace.animate([{ strokeDashoffset: len }, { strokeDashoffset: 0 }],
+          { duration: dur, easing: 'ease-out', fill: 'forwards' });
+        travel(part, pts, d.k, dur, 'ease-out').finished.then(function () {
+          if (mine !== gen) return;
+          flash(stage, d, p);
+          trace.animate([{ opacity: 0.5 }, { opacity: 0.18 }], { duration: 700, fill: 'forwards' });
+        });
+      }
+
+      function routeCycle(stage, mine) {
+        var slots = [];
+        dies.forEach(function (d) {
+          for (var i = 0; i < d.cols * d.rows; i++) slots.push({ d: d, i: i });
+        });
+        shuffle(slots);
+        // hold a full fill near 11s whatever the cell count works out to
+        var gap = clamp(Math.round(11000 / slots.length), 170, 340);
+
+        return new Promise(function (resolve) {
+          slots.forEach(function (s, i) {
+            timers.push(setTimeout(function () {
+              if (mine === gen) send(stage, s.d, s.i, mine);
+            }, i * gap));
+          });
+          timers.push(setTimeout(resolve, slots.length * gap + 1900 + 700));
+        });
+      }
+
+      // Verification pass: once every part is seated, a bar sweeps each die and
+      // each row lights as the bar reaches it. Both dies scan at once.
+      function scanDies(parent) {
+        var dur = 1700;
+        dies.forEach(function (d) {
+          var g = el('g', {});
+          parent.appendChild(g);
+
+          var inset = Math.min(5, d.cellW * 0.12);
+          for (var i = 0; i < d.cols * d.rows; i++) {
+            var r = Math.floor(i / d.cols), p = cellCentre(d, i);
+            var cell = el('rect', {
+              x: p.x - d.cellW / 2 + inset, y: p.y - d.cellH / 2 + inset,
+              width: d.cellW - 2 * inset, height: d.cellH - 2 * inset,
+              rx: 2, 'class': 'flash', opacity: 0
+            });
+            g.appendChild(cell);
+            // delay tracks the bar's arrival at this row
+            cell.animate([{ opacity: 0 }, { opacity: 0.5 }, { opacity: 0 }], {
+              duration: 560,
+              delay: (r + 0.5) / d.rows * dur,
+              easing: 'ease-out'
+            });
+          }
+
+          var bar = el('path', { d: 'M' + d.x + ' ' + d.y + ' H' + (d.x + d.size), 'class': 'scan' });
+          g.appendChild(bar);
+          bar.animate([
+            { transform: 'translateY(0px)', opacity: 0 },
+            { transform: 'translateY(' + d.size * 0.06 + 'px)', opacity: 1, offset: 0.06 },
+            { transform: 'translateY(' + d.size * 0.94 + 'px)', opacity: 1, offset: 0.94 },
+            { transform: 'translateY(' + d.size + 'px)', opacity: 0 }
+          ], { duration: dur, easing: 'linear', fill: 'forwards' });
+        });
+        // outlast the last row's flash before handing back
+        return wait(dur + 700);
+      }
+
+      // Fill every die, hold, sweep to verify, fade out, start over.
+      function run() {
+        var mine = ++gen;
+        pulseAnims.forEach(function (a) { a.cancel(); });
+        pulseAnims = [];
+        svg.textContent = '';
+        computeDies();
+        var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var wireLayer = buildWires(svg, reduced);    // behind the dies
+        dies.forEach(function (d) { buildDie(svg, d); });
+        var stage = el('g', {});
+        svg.appendChild(stage);
+
+        if (reduced) {
+          dies.forEach(function (d) {
+            for (var i = 0; i < d.cols * d.rows; i++) {
+              var p = cellCentre(d, i), part = mosfet();
+              part.style.transform = tf(p.x, p.y, d.k);
+              stage.appendChild(part);
+            }
+          });
+          return;
+        }
+
+        // The bus is re-routed at random every cycle, so it has to fade in rather
+        // than pop into place, and fade out with the parts at the end.
+        if (wireLayer) {
+          wireLayer.animate([{ opacity: 0 }, { opacity: 1 }],
+            { duration: 1100, easing: 'ease-out', fill: 'forwards' });
+        }
+
+        routeCycle(stage, mine).then(function () {
+          if (mine !== gen) return;
+          return scanDies(stage);
+        }).then(function () {
+          if (mine !== gen) return;
+          var out = { duration: 1200, easing: 'ease-in', fill: 'forwards' };
+          var fades = [stage.animate([{ opacity: 1 }, { opacity: 0 }], out).finished];
+          if (wireLayer) {
+            fades.push(wireLayer.animate([{ opacity: 1 }, { opacity: 0 }], out).finished);
+          }
+          return Promise.all(fades);
+        }).then(function () {
+          if (mine !== gen) return;
+          run();
+        });
+      }
+
+      var rt;
+      window.addEventListener('resize', function () {
+        clearTimeout(rt);
+        rt = setTimeout(function () {
+          timers.forEach(clearTimeout);
+          timers = [];
+          run();          // bumps gen, orphaning the previous cycle
+        }, 250);
+      });
+
+      run();
+    })();
+  </script>
 
   <div class="header">
     <h1 class="logo-wrap">
