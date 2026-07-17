@@ -271,9 +271,12 @@
       line-height: 1.5;
     }
 
-    a[href^="mailto:"] {
+    /* every in-card link, not just mailto: — the LinkedIn link is https and would
+       otherwise fall back to the browser's default blue */
+    .card .body a {
       color: var(--accent-fg);
       text-decoration: underline;
+      text-underline-offset: 2px;
     }
 
 
@@ -700,6 +703,15 @@
         <p>Hardware is exactly the kind of open-ended development domain that models should thrive in, yet data scarcity and poor data quality blights model training. Our environments teach real engineering scenarios and reward real engineering outcomes.</p>
         <p>Each environment is a graded, sandboxed task drawn from our workflows: read the spec, write the RTL, build the stimulus, close the loop. They teach thoughtfulness and methodology, not reward hacks.</p>
         <p>Your model could be the next gen tool for building chips. Allow us to help.</p>
+      </div>
+    </div>
+
+    <div class="card card-labs">
+      <h2>For labs</h2>
+      <div class="body">
+        <p>If you are training models to design hardware, start with samples — run them against your own stack and find out where your model breaks.</p>
+        <p>Tell us what you are training and we will send the environments that fit.</p>
+        <p>Reach out on <a href="https://www.linkedin.com/company/arcverex/">LinkedIn</a></p>
       </div>
     </div>
 
