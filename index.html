@@ -95,8 +95,8 @@
       margin: 0;
       padding: 40px 20px;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      font-size: 14px;
-      line-height: 1.6;
+      font-size: 15px;
+      line-height: 1.65;
       position: relative;
       background: var(--bg);
       color: var(--fg);
@@ -211,55 +211,71 @@
       border: 0;
     }
 
+    /* ---------- About / Careers ---------- */
     .columns {
-      display: flex;
-      flex-direction: column;
-      max-width: 560px;
+      display: grid;
+      gap: 40px;
+      max-width: 560px;          /* the animation derives its gutters from this */
       margin: 0 auto;
+      counter-reset: sec;
     }
 
-    .col {
-      min-width: 0;
-    }
-
-    .col h2 {
-      margin-top: 60px;
-      margin-bottom: 0;
-      padding-bottom: 8px;
-      border-bottom: 1px solid var(--rule);
-      font-size: 14px;
-      text-transform: uppercase;
-      font-weight: bold;
-    }
-
-    /* Boxed text columns (About, Careers) */
-    .col-card {
-      flex: 1;
-    }
-
-    .col-card p {
+    /* Squared datasheet panel. One element owns the surface, its borders and its
+       padding, so non-<p> content can be added without falling out of the box. */
+    .card {
+      counter-increment: sec;
       background: var(--muted-bg);
-      padding: 0 16px;
+      border: 1px solid var(--muted-border);
+      border-left: 2px solid var(--accent-fg);
+      padding: 26px 28px 28px;
+    }
+
+    .card h2 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;    /* uppercase needs tracking or it reads cramped */
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .card h2::before {
+      content: counter(sec, decimal-leading-zero);
+      color: var(--accent-fg);
+    }
+
+    /* rule runs out to the card edge, like a datasheet table head */
+    .card h2::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--muted-border);
+    }
+
+    .card .body p {
       margin: 0;
+      text-wrap: pretty;
     }
 
-    .col-card p + p {
-      padding-top: 1em;
+    .card .body p + p {
+      margin-top: 1.05em;
     }
 
-    .col-card p:first-of-type {
-      padding-top: 14px;
-    }
-
-    .col-card p:last-of-type {
-      padding-bottom: 14px;
-      border-bottom: 1px solid var(--muted-border);
+    /* opening line carries the section: larger, tighter leading */
+    .card .body p:first-child {
+      font-size: 1.13em;
+      line-height: 1.5;
     }
 
     a[href^="mailto:"] {
       color: var(--accent-fg);
       text-decoration: underline;
     }
+
 
   </style>
 </head>
@@ -677,21 +693,26 @@
   </div>
 
   <div class="columns">
-    <div class="col col-card col-about">
+    <div class="card card-about">
       <h2>About</h2>
-      <p>We are hardware engineers anticipating the acceleration of our workflows. Tired of waiting, we are building reinforcement-learning environments that teach LLMs to become capable hardware engineers.</p>
-      <p>Hardware is exactly the kind of open-ended development domain that models should thrive in, yet data scarcity and poor data quality blights model training. Our environments teach real engineering scenarios and reward real engineering outcomes.</p>
-      <p>Each environment is a graded, sandboxed task drawn from our workflows: read the spec, write the RTL, build the stimulus, close the loop. They teach thoughtfulness and methodology, not reward hacks.</p>
-      <p>Your model could be the next gen tool for building chips. Allow us to help.</p>
+      <div class="body">
+        <p>We are hardware engineers anticipating the acceleration of our workflows. Tired of waiting, we are building reinforcement-learning environments that teach LLMs to become capable hardware engineers.</p>
+        <p>Hardware is exactly the kind of open-ended development domain that models should thrive in, yet data scarcity and poor data quality blights model training. Our environments teach real engineering scenarios and reward real engineering outcomes.</p>
+        <p>Each environment is a graded, sandboxed task drawn from our workflows: read the spec, write the RTL, build the stimulus, close the loop. They teach thoughtfulness and methodology, not reward hacks.</p>
+        <p>Your model could be the next gen tool for building chips. Allow us to help.</p>
+      </div>
     </div>
 
-    <div class="col col-card col-careers">
+    <div class="card card-careers">
       <h2>Careers</h2>
-      <p>If you care about getting RTL right — clean designs, honest verification — and want to shape how models learn that craft, let's talk.</p>
-      <p>We hire for depth and curiosity over credentials. Tell us why you chose hardware.</p>
-      <p>Reach out at <a href="mailto:careers@arcverex.io">careers@arcverex.io</a></p>
+      <div class="body">
+        <p>If you care about getting RTL right — clean designs, honest verification — and want to shape how models learn that craft, let's talk.</p>
+        <p>We hire for depth and curiosity over credentials. Tell us why you chose hardware.</p>
+        <p>Reach out at <a href="mailto:careers@arcverex.io">careers@arcverex.io</a></p>
+      </div>
     </div>
   </div>
+
 </body>
 
 </html>
