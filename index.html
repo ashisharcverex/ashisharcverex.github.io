@@ -279,6 +279,77 @@
       text-underline-offset: 2px;
     }
 
+    /* ---------- lead form (For labs) ---------- */
+    .lead-form {
+      display: grid;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .lead-form label {
+      display: grid;
+      gap: 6px;
+    }
+
+    /* monospace field labels echo the datasheet section heads */
+    .lead-form label span {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .lead-form input,
+    .lead-form textarea {
+      font: inherit;
+      color: var(--fg);
+      background: var(--bg);
+      border: 1px solid var(--muted-border);
+      border-radius: 0;
+      padding: 9px 11px;
+      width: 100%;
+    }
+
+    .lead-form textarea {
+      resize: vertical;
+      min-height: 96px;
+    }
+
+    .lead-form input:focus-visible,
+    .lead-form textarea:focus-visible {
+      outline: none;
+      border-color: var(--accent-fg);
+      box-shadow: 0 0 0 1px var(--accent-fg);
+    }
+
+    .lead-form button {
+      justify-self: start;
+      font: inherit;
+      font-weight: 600;
+      color: var(--accent-fg);
+      background: transparent;
+      border: 1px solid var(--accent-fg);
+      border-radius: 0;
+      padding: 9px 22px;
+      cursor: pointer;
+    }
+
+    .lead-form button:hover {
+      background: var(--accent-bg);
+    }
+
+    .lead-form button:focus-visible {
+      outline: 2px solid var(--accent-fg);
+      outline-offset: 2px;
+    }
+
+    .form-fallback {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--dim);
+    }
 
   </style>
 </head>
@@ -709,9 +780,23 @@
     <div class="card card-labs">
       <h2>For labs</h2>
       <div class="body">
-        <p>If you are training models to design hardware, start with samples — run them against your own stack and find out where your model breaks.</p>
-        <p>Tell us what you are training and we will send the environments that fit.</p>
-        <p>Reach out on <a href="https://www.linkedin.com/company/arcverex/">LinkedIn</a></p>
+        <p>If you are interested in training your models to be a competent hardware engineer, please contact us.</p>
+        <form class="lead-form" aria-label="Contact arcverex">
+          <label>
+            <span>Name</span>
+            <input type="text" name="name" autocomplete="name" required>
+          </label>
+          <label>
+            <span>Email</span>
+            <input type="email" name="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span>Message</span>
+            <textarea name="message" required></textarea>
+          </label>
+          <button type="submit">Contact us</button>
+          <p class="form-fallback" hidden>Your email app should open with the message ready to send. If nothing happens, write to <a href="mailto:careers@arcverex.io?subject=CUSTOMER">careers@arcverex.io</a> or reach out on <a href="https://www.linkedin.com/company/arcverex/">LinkedIn</a>.</p>
+        </form>
       </div>
     </div>
 
@@ -724,6 +809,37 @@
       </div>
     </div>
   </div>
+
+  <script>
+    (function () {
+      var form = document.querySelector('.lead-form');
+      if (!form) return;
+      var TO = 'careers@arcverex.io';
+      var SUBJECT = 'CUSTOMER';       // fixed subject so Gmail can filter/label
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        if (!form.reportValidity()) return;
+
+        // form.elements[...] not form.name — the latter resolves to the form's
+        // own name attribute, not the field named "name"
+        var name = form.elements['name'].value.trim();
+        var email = form.elements['email'].value.trim();
+        var message = form.elements['message'].value.trim();
+
+        var body = 'Name: ' + name + '\n' + 'Email: ' + email + '\n\n' + message;
+        var href = 'mailto:' + TO +
+          '?subject=' + encodeURIComponent(SUBJECT) +
+          '&body=' + encodeURIComponent(body);
+
+        // reveal the manual fallback in case no mail handler is registered
+        var fb = form.querySelector('.form-fallback');
+        if (fb) fb.hidden = false;
+
+        window.location.href = href;
+      });
+    })();
+  </script>
 
 </body>
 
