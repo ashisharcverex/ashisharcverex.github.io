@@ -142,6 +142,16 @@
     sceneViews.querySelectorAll('button').forEach(view => view.setAttribute('aria-pressed', String(view === button)));
     resize();
   });
+  window.addEventListener('arcverex:sectionchange', () => {
+    // Desktop swaps need no playback or canvas changes. On a narrow screen,
+    // reveal the selected copy while retaining elapsed time and the pause state.
+    if (!mobile || mobileView === 'overview') return;
+    mobileView = 'overview';
+    sceneViews.querySelectorAll('button').forEach(view => {
+      view.setAttribute('aria-pressed', String(view.dataset.sceneView === mobileView));
+    });
+    resize();
+  });
   window.addEventListener('resize', () => {
     if (resizeQueued) return;
     resizeQueued = true;

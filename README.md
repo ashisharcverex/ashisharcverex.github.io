@@ -36,10 +36,12 @@ compiler. Its displayed vectors come from the same gate equations that drive the
 schematic. The completion count comes from checking all 1,024 ALU combinations
 in JavaScript against independent arithmetic and bitwise reference expressions.
 
-- `index.html` contains the site content and accessible animation controls.
-- `careers.html` contains the hiring information and a link back to the homepage.
-- `site.css` shares typography and content panels across the two pages.
-- `page-layout.css` keeps each page compact and sizes the narrow-screen views.
+- `index.html` contains About, Careers, and accessible animation controls.
+- `content-navigation.js` switches the copy in place, with `#about` / `#careers`
+  links and browser history. The canvas, terminal, clock, and pause state persist.
+- `careers.html` redirects older links to `/#careers`.
+- `site.css` defines the open text layout and typography.
+- `page-layout.css` keeps the copy compact and sizes the narrow-screen views.
 - `workbench.js` owns shared playback, layout, and theme controls.
 - `engineering-session.js` owns phases, ALU gate equations, vectors, and verification.
 - `schematic-scene.js` owns the cached gate paths and progressive drawing.
@@ -47,7 +49,10 @@ in JavaScript against independent arithmetic and bitwise reference expressions.
 - `terminal-scene.css` styles the terminal and its inline SVG robot.
 - `chip-scene.css` defines the light/dark palettes and responsive composition.
 
-Below 1200px, the view switch shows the page's copy, the terminal, or the schematic.
+About and Careers occupy the same space; switching them does not move the header
+or restart the background. Only the selected copy is exposed to assistive technology.
+
+Below 1200px, the view switch shows the selected copy, the terminal, or the schematic.
 The copy is selected initially; an illustration uses the available viewport space
 when selected. The animation pauses while reading the copy, when the tab is
 hidden, or when the illustration is offscreen. The pause button freezes both scenes;

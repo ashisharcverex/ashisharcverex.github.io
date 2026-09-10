@@ -84,15 +84,6 @@ body {
   letter-spacing: 0.025em;
 }
 
-.card {
-  border-left-width: 1px;
-  box-shadow: 0 8px 40px -28px rgba(19, 42, 31, 0.22);
-}
-
-.card h2::before {
-  font-size: 10px;
-}
-
 .theme-toggle {
   top: 22px;
   right: 24px;
@@ -243,14 +234,6 @@ body {
 
   .mobile-scene-space[data-view="schematic"] {
     height: 448px;
-  }
-
-  .card {
-    padding: 24px 22px;
-  }
-
-  .columns {
-    gap: 24px;
   }
 
   .theme-toggle {
