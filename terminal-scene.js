@@ -108,6 +108,7 @@
 
     layout({ x, y, width, height, visible }) {
       this.element.hidden = !visible;
+      this.element.dataset.compact = String(height < 320);
       Object.assign(this.element.style, {
         left: `${Math.round(x)}px`, top: `${Math.round(y)}px`,
         width: `${Math.round(width)}px`, height: `${Math.round(height)}px`,

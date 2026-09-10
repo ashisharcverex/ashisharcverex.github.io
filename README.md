@@ -36,7 +36,10 @@ compiler. Its displayed vectors come from the same gate equations that drive the
 schematic. The completion count comes from checking all 1,024 ALU combinations
 in JavaScript against independent arithmetic and bitwise reference expressions.
 
-- `index.html` contains the site content, form, and accessible animation controls.
+- `index.html` contains the site content and accessible animation controls.
+- `careers.html` contains the hiring information and a link back to the homepage.
+- `site.css` shares typography and content panels across the two pages.
+- `page-layout.css` keeps each page compact and sizes the narrow-screen views.
 - `workbench.js` owns shared playback, layout, and theme controls.
 - `engineering-session.js` owns phases, ALU gate equations, vectors, and verification.
 - `schematic-scene.js` owns the cached gate paths and progressive drawing.
@@ -44,9 +47,10 @@ in JavaScript against independent arithmetic and bitwise reference expressions.
 - `terminal-scene.css` styles the terminal and its inline SVG robot.
 - `chip-scene.css` defines the light/dark palettes and responsive composition.
 
-Below 1200px, a Terminal/Schematic switch shows either illustration in a dedicated
-space beneath the wordmark. The animation pauses when the tab is hidden or the
-mobile illustration is offscreen. The pause button freezes both scenes;
+Below 1200px, the view switch shows the page's copy, the terminal, or the schematic.
+The copy is selected initially; an illustration uses the available viewport space
+when selected. The animation pauses while reading the copy, when the tab is
+hidden, or when the illustration is offscreen. The pause button freezes both scenes;
 `prefers-reduced-motion` shows a completed, static session, including the robot.
 Schematic paths are constructed once, and transcript updates are limited to 24Hz.
 Canvas density is capped to limit rendering cost on large displays.

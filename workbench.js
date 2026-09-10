@@ -31,14 +31,14 @@
   sceneViews.hidden = false;
 
   let width = 0, height = 0, mobile = false, mobileVisible = true;
-  let mobileView = 'terminal', schematicScene, terminalScene;
+  let mobileView = 'overview', schematicScene, terminalScene;
   let frame = 0, lastTime = 0, elapsed = 0, userPaused = false;
   let resizeQueued = false, sceneDirty = true;
 
   function positionMobile() {
     const rect = mobileSpace.getBoundingClientRect();
     const cy = rect.top + rect.height / 2;
-    mobileVisible = rect.bottom > 0 && rect.top < height;
+    mobileVisible = mobileView !== 'overview' && rect.bottom > 0 && rect.top < height;
     schematicScene.cy = cy + 12;
     terminalScene.y = cy - terminalScene.height / 2;
     terminalScene.visible = mobileView === 'terminal' && mobileVisible;
@@ -47,6 +47,8 @@
 
   function resize() {
     resizeQueued = false;
+    root.dataset.sceneView = mobileView;
+    mobileSpace.dataset.view = mobileView;
     width = root.clientWidth;
     height = innerHeight;
     mobile = mobileLayout.matches;
@@ -54,24 +56,38 @@
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    mobileSpace.dataset.view = mobileView;
 
     if (mobile) {
+      // The selected animation uses the space left by the header and navigation.
+      // Copy gets its own view, so the artwork never adds a long block above it.
+      mobileSpace.style.height = '0px';
+      if (mobileView !== 'overview') {
+        const header = document.querySelector('.header');
+        const nav = document.querySelector('.site-nav');
+        const outerHeight = element => {
+          const style = getComputedStyle(element);
+          return element.getBoundingClientRect().height + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
+        };
+        const bodyStyle = getComputedStyle(document.body);
+        const fixedHeight = outerHeight(header) + outerHeight(nav) +
+          parseFloat(bodyStyle.paddingTop) + parseFloat(bodyStyle.paddingBottom);
+        mobileSpace.style.height = `${clamp(height - fixedHeight, 196, 476)}px`;
+      }
       const rect = mobileSpace.getBoundingClientRect();
       const panelWidth = Math.min(428, width - 40);
       terminalScene = { x: (width - panelWidth) / 2, y: 0, width: panelWidth,
-        height: Math.min(460, rect.height - 16), visible: mobileView === 'terminal' };
+        height: Math.max(0, Math.min(460, rect.height - 16)), visible: mobileView === 'terminal' };
       schematicScene = { cx: width / 2, cy: 0,
-        scale: Math.min(1.08, (width - 34) / 450, (rect.height - 12) / 434) };
+        scale: Math.max(0, Math.min(1.08, (width - 34) / 450, (rect.height - 12) / 434)) };
       positionMobile();
     } else {
       const content = document.querySelector('.columns').getBoundingClientRect();
       const gutter = Math.min(content.left, width - content.right);
       const cy = height * 0.53;
       const panelWidth = Math.min(428, gutter - 42);
-      const panelHeight = Math.min(460, height - 100);
+      const panelHeight = Math.min(460, height - 132);
       terminalScene = { x: (gutter - panelWidth) / 2,
-        y: clamp(cy - panelHeight / 2, 40, height - panelHeight - 40),
+        y: clamp(cy - panelHeight / 2, 40, height - panelHeight - 84),
         width: panelWidth, height: panelHeight, visible: true };
       schematicScene = { cx: width - gutter / 2, cy,
         scale: Math.min(1.28, (gutter - 38) / (450 * 0.86), (height - 100) / (434 * 0.86)) };
@@ -110,7 +126,7 @@
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     lastTime = 0;
-    motionButton.hidden = reducedMotion.matches;
+    motionButton.hidden = reducedMotion.matches || (mobile && mobileView === 'overview');
     motionButton.setAttribute('aria-pressed', String(userPaused));
     motionButton.setAttribute('aria-label', `${userPaused ? 'Resume' : 'Pause'} background animation`);
     motionButton.querySelector('span').textContent = `${userPaused ? 'Resume' : 'Pause'} animation`;
