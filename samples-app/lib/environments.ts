@@ -1,6 +1,6 @@
 export const environments: Record<string, { title: string; description: string; input: string; output: string }> = {
   'SV testbench': {
-    title: 'SystemVerilog Testbench',
+    title: 'Testbench Generation',
     description: 'Build self-checking testbenches that distinguish correct RTL from faulty implementations.',
     input: 'Specification + RTL',
     output: 'Self-checking testbench',
