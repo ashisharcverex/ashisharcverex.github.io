@@ -1,7 +1,9 @@
 import 'server-only';
 import { db } from './db';
 import { requireViewer } from './auth';
-export type TranscriptEntry = { rollout_number: number; passed: boolean; failure_title?: string; missed_checks?: string[] };
+export type TranscriptEntry = { rollout_number: number; display_number?: number; passed: boolean; failure_title?: string; missed_checks?: string[] };
+// Display numbering follows all ten audited runs, not just the selected examples.
+const knockLockRuns = [2, 3, 13, 14, 16, 22, 23, 24, 25, 26];
 const selectedRollouts = new Map<string, readonly number[]>([
   ['sv-testbench-apb-registers', [7, 1, 2, 9]],
   ['sv-testbench-knock-lock', [22, 14, 23, 24, 25]],
@@ -31,7 +33,7 @@ export async function listTranscripts(slug: string) {
     JOIN samples s ON s.slug = t.sample_slug
     WHERE s.slug = ${slug} AND s.published = true ORDER BY t.rollout_number`;
   return selected.flatMap(number => rows.filter(row => row.rollout_number === number))
-    .map(row => ({ ...row, missed_checks: missedChecks.get(`${slug}:${row.rollout_number}`), failure_title: row.passed ? undefined : failureTitles.get(`${slug}:${row.rollout_number}`) }));
+    .map(row => ({ ...row, display_number: slug === 'sv-testbench-knock-lock' ? knockLockRuns.indexOf(row.rollout_number) : row.rollout_number, missed_checks: missedChecks.get(`${slug}:${row.rollout_number}`), failure_title: row.passed ? undefined : failureTitles.get(`${slug}:${row.rollout_number}`) }));
 }
 export async function getTranscript(slug: string, number: number) {
   await requireViewer();

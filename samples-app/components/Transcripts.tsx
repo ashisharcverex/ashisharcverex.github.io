@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react';
 import type { TranscriptEntry } from '@/lib/transcripts';
 function Transcript({ slug, entry }: { slug: string; entry: TranscriptEntry }) {
+  const displayNumber = entry.display_number ?? entry.rollout_number;
   const [body, setBody] = useState<string>();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -18,11 +19,11 @@ function Transcript({ slug, entry }: { slug: string; entry: TranscriptEntry }) {
     finally { pending.current = false; setLoading(false); }
   }
   return <details className="sample-section transcript-entry" onToggle={event => { if (event.currentTarget.open) void load(); }}>
-    <summary>Rollout {entry.rollout_number}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.passed ? 'Passed' : entry.failure_title ?? 'Reference mismatch'}</span></summary>
+    <summary>Rollout {displayNumber}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.passed ? 'Passed' : entry.failure_title ?? 'Reference mismatch'}</span></summary>
     {entry.missed_checks?.length ? <div className="transcript-misses"><p className="fine">Observed checks missed</p><ul>{entry.missed_checks.map(check => <li key={check}>{check}</li>)}</ul></div> : null}
     {loading && <p role="status">Loading transcript…</p>}
     {error && <p role="alert">{error} <button type="button" onClick={() => void load()}>Retry</button></p>}
-    {body !== undefined && <pre className="sample-body transcript-body" tabIndex={0} aria-label={`Rollout ${entry.rollout_number} transcript`}>{body}</pre>}
+    {body !== undefined && <pre className="sample-body transcript-body" tabIndex={0} aria-label={`Rollout ${displayNumber} transcript`}>{body}</pre>}
   </details>;
 }
 export function Transcripts({ slug, entries }: { slug: string; entries: TranscriptEntry[] }) {
