@@ -5,7 +5,11 @@ export type Sample = { slug: string; title: string; summary: string; category: s
 export async function listSamples() {
   await requireViewer();
   return db()<Pick<Sample, 'slug' | 'title' | 'summary' | 'category'>[]>`
-    SELECT slug, title, summary, category FROM samples WHERE published = true ORDER BY title`;
+    SELECT slug, title, summary, category FROM samples WHERE published = true ORDER BY CASE category
+      WHEN 'SV testbench' THEN 1
+      WHEN 'RTL design' THEN 2
+      WHEN 'RTL debug' THEN 3
+      ELSE 4 END, title`;
 }
 export async function getSample(slug: string) {
   await requireViewer();
