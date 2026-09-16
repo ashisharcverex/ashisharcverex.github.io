@@ -21,7 +21,7 @@ describe('sample visuals', () => {
   it('preserves descriptions without a rate', () => {
     expect(parsePassRate('Preview.')).toEqual({description:'Preview.',rate:undefined});
   });
-  it.each(['sv-testbench-apb-registers','rtl-design-credit-flow','rtl-debug-accumulator'])('renders accessible grading and QA diagrams for %s', slug => {
+  it.each(['sv-testbench-knock-lock','sv-testbench-apb-registers','rtl-design-credit-flow','rtl-debug-accumulator'])('renders accessible grading and QA diagrams for %s', slug => {
     const html = renderToStaticMarkup(<SampleDiagrams slug={slug} />);
     expect(html.match(/<svg /g)).toHaveLength(2);
     expect(html.match(/<desc /g)).toHaveLength(2);

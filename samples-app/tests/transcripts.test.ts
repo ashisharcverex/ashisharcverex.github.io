@@ -15,10 +15,11 @@ describe('transcript access', () => {
   });
   it.each([
     ['sv-testbench-apb-registers', [7, 1, 2, 9]],
+    ['sv-testbench-knock-lock', [22, 14, 23, 24, 25]],
     ['rtl-design-credit-flow', [3, 1, 5]],
     ['rtl-debug-accumulator', [6, 1, 3, 4]],
   ] as const)('lists only selected examples, passing first, for %s', async (slug, selected) => {
-    mocks.db.mockReturnValue(vi.fn().mockResolvedValue(Array.from({length:10}, (_,i) => ({rollout_number:i+1,passed:i+1===selected[0]}))));
+    mocks.db.mockReturnValue(vi.fn().mockResolvedValue(Array.from({length:26}, (_,i) => ({rollout_number:i+1,passed:i+1===selected[0]}))));
     const rows = await listTranscripts(slug);
     expect(rows.map(r => r.rollout_number)).toEqual(selected);
     expect(rows[0].passed).toBe(true);

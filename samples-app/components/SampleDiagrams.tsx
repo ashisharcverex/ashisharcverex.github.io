@@ -5,6 +5,12 @@ type Box = { x: number; y: number; lines: string[]; tone?: 'accent' | 'muted' };
 type Edge = [number, number];
 type Diagram = { title: string; description: string; boxes: Box[]; edges: Edge[]; height: number };
 const diagrams: Record<string, [Diagram, Diagram]> = {
+  'sv-testbench-knock-lock': [
+    { title: 'Grading', description: 'The testbench passes source checks, then must accept both correct designs and reject every faulty design.', height: 340,
+      boxes: [{x:10,y:140,lines:['Submitted','testbench']},{x:220,y:140,lines:['Source','checks']},{x:430,y:20,lines:['Correct design','Must PASS'],tone:'accent'},{x:430,y:140,lines:['Hidden correct design','Must PASS'],tone:'accent'},{x:430,y:260,lines:['Every injected fault','Must FAIL'],tone:'accent'},{x:650,y:140,lines:['All checks met','Task passes'],tone:'accent'}], edges:[[0,1],[1,2],[1,3],[1,4],[2,5],[3,5],[4,5]] },
+    { title: 'QA checks', description: 'The reference bench must catch all 47 faults and accept both correct designs. Correct designs must agree. A competent but incomplete bench must fail.', height: 340,
+      boxes:[{x:10,y:20,lines:['Reference','testbench']},{x:280,y:20,lines:['Full grading','suite']},{x:560,y:20,lines:['Expected','PASS'],tone:'accent'},{x:10,y:140,lines:['Two correct','implementations']},{x:280,y:140,lines:['Side-by-side','simulation']},{x:560,y:140,lines:['Expected','Matching outputs'],tone:'accent'},{x:10,y:260,lines:['Competent but','incomplete bench']},{x:280,y:260,lines:['Full grading','suite']},{x:560,y:260,lines:['Expected','FAIL'],tone:'accent'}],edges:[[0,1],[1,2],[3,4],[4,5],[6,7],[7,8]] },
+  ],
   'sv-testbench-apb-registers': [
     { title: 'Grading', description: 'The testbench passes source checks, then must accept both correct designs and reject every faulty design.', height: 340,
       boxes: [{x:10,y:140,lines:['Submitted','testbench']},{x:220,y:140,lines:['Source','checks']},{x:430,y:20,lines:['Correct design','Must PASS'],tone:'accent'},{x:430,y:140,lines:['Hidden correct design','Must PASS'],tone:'accent'},{x:430,y:260,lines:['Every injected fault','Must FAIL'],tone:'accent'},{x:650,y:140,lines:['All checks met','Task passes'],tone:'accent'}], edges:[[0,1],[1,2],[1,3],[1,4],[2,5],[3,5],[4,5]] },

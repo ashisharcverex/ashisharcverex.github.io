@@ -9,6 +9,13 @@ const categories = [
   { title: 'Sandbox integrity', icon: '⬡' },
 ];
 const checks: Record<string, Check[]> = {
+  'sv-testbench-knock-lock': [
+    { status: 'Historical evidence', detail: 'Saved QA reports the reference bench accepts both correct designs and catches all 47 injected faults. Exact verifier provenance still needs validation.' },
+    { status: 'Historical evidence', detail: 'A competent bench accepts both correct designs but catches only 44 of 47 faults, demonstrating three missed state-preservation checks.' },
+    { status: 'Review needed', detail: 'The prompt specifies event priority and state updates. Independent specification review remains a separate QA gate.' },
+    { status: 'Historical evidence', detail: 'Saved QA examines recording, confirmation, reset and lockout sequences. The selected transcripts cover all 11 missed checks in the audited calibration set.' },
+    { status: 'Validation pending', detail: 'Validate private-asset isolation and trusted grading results for this sample.' },
+  ],
   'sv-testbench-apb-registers': [
     { status: 'Evidence pending', detail: 'A reference-bench check exists; its result needs to be verified against the exact sample version.' },
     { status: 'Check missing', detail: 'The QA suite is missing its competent but shallow testbench control.' },
