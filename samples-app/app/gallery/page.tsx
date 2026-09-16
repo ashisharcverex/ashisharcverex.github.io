@@ -19,7 +19,6 @@ export default async function Gallery() {
             const environment = environments[sample.category];
             return (
             <Link prefetch={false} className="sample-card" href={'/gallery/' + sample.slug} key={sample.slug}>
-              <span className="eyebrow">RL ENVIRONMENT</span>
               <h2>{environment?.title ?? sample.category}</h2>
               <p>{environment?.description ?? description}</p>
               <p className="fine">Sample task: {sample.title}</p>

@@ -15,7 +15,6 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
   return (
     <article>
       <a href="/gallery">← All environments</a>
-      <p className="eyebrow">RL ENVIRONMENT</p>
       <h1>{environment?.title ?? sample.category}</h1>
       <p className="lead">{environment?.description ?? description}</p>
       {environment && <div className="environment-flow" aria-label="Environment input and deliverable">
