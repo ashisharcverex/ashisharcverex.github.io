@@ -1,3 +1,11 @@
 export default function Privacy() {
-  return <article className="prose"><p className="eyebrow">PRIVACY & ACCESS</p><h1>A little context<br />before you explore.</h1><h2>What we record</h2><p>We record your verified email address, which samples you open, and when you open them. If you arrive through a broker’s link, we also record that referral. Repeat views of the same sample on the same day are combined.</p><h2>Why we record it</h2><p>Arcverex uses this information to understand interest in our environments and follow up on relevant customer enquiries. Arcverex receives email notifications when samples are accessed. Verifying your email does not subscribe you to a newsletter.</p><h2>Services and cookies</h2><p>Clerk handles email verification and your sign-in session. Resend delivers access notifications to Arcverex. Our hosting and database providers store the application and access records. We use cookies to keep you signed in and remember a broker referral for up to 30 days.</p><h2>Questions or deletion requests</h2><p>Contact <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a> about your information or to request its deletion.</p><a className="button" href="/">Back to samples →</a></article>;
+  return (
+    <article className="prose">
+      <h1>Privacy</h1>
+      <p>Arcverex records your verified email, sample views, timestamps, and broker referrals to understand interest and follow up. Sample views trigger email alerts to Arcverex. No newsletter signup.</p>
+      <p>Clerk handles sign-in; Resend sends alerts. Hosting and database providers store the app and access records. Cookies maintain your session and remember referrals for 30 days.</p>
+      <p>Questions or deletion requests: <a href="mailto:ashish@arcverex.io">ashish@arcverex.io</a>.</p>
+      <a href="/">← Samples</a>
+    </article>
+  );
 }
