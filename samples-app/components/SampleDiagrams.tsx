@@ -1,4 +1,5 @@
 import React from 'react';
+import { QACategories } from './QACategories';
 
 type Box = { x: number; y: number; lines: string[]; tone?: 'accent' | 'muted' };
 type Edge = [number, number];
@@ -32,6 +33,7 @@ export function SampleDiagrams({ slug }: { slug: string }) {
       const id = `${slug}-diagram-${index}`;
       return <figure className="sample-diagram" key={id}>
         <figcaption>{diagram.title}</figcaption>
+        {index === 1 && <QACategories slug={slug} />}
         <div className="diagram-scroll" tabIndex={0} role="region" aria-label={`${diagram.title} diagram, scroll horizontally on small screens`}>
           <svg viewBox={`0 0 840 ${diagram.height}`} role="img" aria-labelledby={`${id}-title ${id}-desc`}>
             <title id={`${id}-title`}>{diagram.title}</title><desc id={`${id}-desc`}>{diagram.description}</desc>
