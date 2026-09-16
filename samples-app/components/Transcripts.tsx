@@ -27,8 +27,8 @@ function Transcript({ slug, entry }: { slug: string; entry: TranscriptEntry }) {
 export function Transcripts({ slug, entries }: { slug: string; entries: TranscriptEntry[] }) {
   if (!entries.length) return null;
   return <section className="transcripts" aria-labelledby="transcript-heading">
-    <h2 id="transcript-heading">Rollout transcripts <span className="fine">{entries.length}</span></h2>
-    <p className="fine">Opus 5 · Messages, tool calls, and outputs from the saved runs. Runtime metadata omitted.</p>
+    <h2 id="transcript-heading">Selected transcripts <span className="fine">{entries.length}</span></h2>
+    <p className="fine">Opus 5 · Selected examples. Pass rates use all recorded runs.</p>
     {entries.map(entry => <Transcript key={entry.rollout_number} slug={slug} entry={entry} />)}
   </section>;
 }

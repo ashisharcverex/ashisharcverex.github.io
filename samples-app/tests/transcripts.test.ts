@@ -5,9 +5,25 @@ vi.mock('../lib/db', () => ({ db: mocks.db }));
 import { listTranscripts, getTranscript } from '../lib/transcripts';
 import { GET } from '../app/api/transcripts/[slug]/[number]/route';
 const request = new Request('https://samples.arcverex.io/api/transcripts/example/1');
-const context = (number = '1') => ({ params: Promise.resolve({ slug: 'example', number }) });
+const context = (number = '1') => ({ params: Promise.resolve({ slug: 'sv-testbench-apb-registers', number }) });
 beforeEach(() => vi.resetAllMocks());
 describe('transcript access', () => {
+  it('hides unselected transcripts even when requested directly', async () => {
+    mocks.viewer.mockResolvedValue({ id: 'verified' });
+    expect((await GET(request, context('10'))).status).toBe(404);
+    expect(mocks.db).not.toHaveBeenCalled();
+  });
+  it.each([
+    ['sv-testbench-apb-registers', [7, 1, 2, 9]],
+    ['rtl-design-credit-flow', [3, 1, 5]],
+    ['rtl-debug-accumulator', [6, 1, 3, 4]],
+  ] as const)('lists only selected examples, passing first, for %s', async (slug, selected) => {
+    mocks.db.mockReturnValue(vi.fn().mockResolvedValue(Array.from({length:10}, (_,i) => ({rollout_number:i+1,passed:i+1===selected[0]}))));
+    const rows = await listTranscripts(slug);
+    expect(rows.map(r => r.rollout_number)).toEqual(selected);
+    expect(rows[0].passed).toBe(true);
+  });
+
   it('does not query transcripts without a verified viewer', async () => {
     mocks.requireViewer.mockRejectedValue(new Error('Unauthorized'));
     await expect(listTranscripts('example')).rejects.toThrow('Unauthorized');
