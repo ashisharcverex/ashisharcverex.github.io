@@ -18,7 +18,7 @@ function Transcript({ slug, entry }: { slug: string; entry: TranscriptEntry }) {
     finally { pending.current = false; setLoading(false); }
   }
   return <details className="sample-section transcript-entry" onToggle={event => { if (event.currentTarget.open) void load(); }}>
-    <summary>Rollout {entry.rollout_number}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.passed ? 'Passed' : 'Did not pass'}</span></summary>
+    <summary>Rollout {entry.rollout_number}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.passed ? 'Passed' : entry.failure_title ?? 'Reference mismatch'}</span></summary>
     {loading && <p role="status">Loading transcript…</p>}
     {error && <p role="alert">{error} <button type="button" onClick={() => void load()}>Retry</button></p>}
     {body !== undefined && <pre className="sample-body transcript-body" tabIndex={0} aria-label={`Rollout ${entry.rollout_number} transcript`}>{body}</pre>}
