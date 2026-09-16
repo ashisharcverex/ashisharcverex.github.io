@@ -28,3 +28,11 @@ CREATE TABLE IF NOT EXISTS notification_outbox (
   last_error text,
   UNIQUE (email, day)
 );
+
+CREATE TABLE IF NOT EXISTS sample_transcripts (
+  sample_slug text NOT NULL REFERENCES samples(slug),
+  rollout_number integer NOT NULL CHECK (rollout_number > 0),
+  passed boolean NOT NULL,
+  body text NOT NULL,
+  PRIMARY KEY (sample_slug, rollout_number)
+);

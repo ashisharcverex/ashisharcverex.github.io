@@ -1,3 +1,5 @@
+import { listTranscripts } from '@/lib/transcripts';
+import { Transcripts } from '@/components/Transcripts';
 import { environments } from '@/lib/environments';
 import { PassRate, parsePassRate } from '@/components/PassRate';
 import { notFound } from 'next/navigation';
@@ -12,6 +14,7 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
   const { description, rate } = parsePassRate(sample.summary);
   const environment = environments[sample.category];
   const content = splitSampleBody(sample.body);
+  const transcripts = await listTranscripts(sample.slug);
   return (
     <article>
       <a href="/gallery">← All environments</a>
@@ -34,6 +37,7 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
         <p className="fine">{content.rtlPath}</p>
         <pre className="sample-body">{content.rtl}</pre>
       </details>}
+      <Transcripts slug={sample.slug} entries={transcripts} />
       <ViewTracker slug={sample.slug} />
     </article>
   );
