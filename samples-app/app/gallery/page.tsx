@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { PassRate, parsePassRate } from '@/components/PassRate';
 import { UserButton } from '@clerk/nextjs';
 import { listSamples } from '@/lib/samples';
 
@@ -12,14 +13,17 @@ export default async function Gallery() {
       <h1>Samples</h1>
       {samples.length ? (
         <div className="grid">
-          {samples.map(sample => (
+          {samples.map(sample => {
+            const { description, rate } = parsePassRate(sample.summary);
+            return (
             <Link prefetch={false} className="sample-card" href={'/gallery/' + sample.slug} key={sample.slug}>
               <span className="eyebrow">{sample.category}</span>
               <h2>{sample.title}</h2>
-              <p>{sample.summary}</p>
+              <p>{description}</p>
+              {rate && <PassRate {...rate} />}
               <span>View →</span>
             </Link>
-          ))}
+          ); })}
         </div>
       ) : (
         <section className="empty"><span className="empty-icon" aria-hidden="true">[ &nbsp; ]</span><h2>Samples coming soon.</h2><a href="mailto:ashish@arcverex.io">Contact →</a></section>
