@@ -1,3 +1,4 @@
+import { environments } from '@/lib/environments';
 import Link from 'next/link';
 import { PassRate, parsePassRate } from '@/components/PassRate';
 import { UserButton } from '@clerk/nextjs';
@@ -10,18 +11,20 @@ export default async function Gallery() {
   return (
     <>
       <div className="section-top"><p className="eyebrow">THE COLLECTION</p><UserButton /></div>
-      <h1>Samples</h1>
+      <h1>Environments</h1>
       {samples.length ? (
         <div className="grid">
           {samples.map(sample => {
             const { description, rate } = parsePassRate(sample.summary);
+            const environment = environments[sample.category];
             return (
             <Link prefetch={false} className="sample-card" href={'/gallery/' + sample.slug} key={sample.slug}>
-              <span className="eyebrow">{sample.category}</span>
-              <h2>{sample.title}</h2>
-              <p>{description}</p>
+              <span className="eyebrow">RL ENVIRONMENT</span>
+              <h2>{environment?.title ?? sample.category}</h2>
+              <p>{environment?.description ?? description}</p>
+              <p className="fine">Sample task: {sample.title}</p>
               {rate && <PassRate {...rate} />}
-              <span>View →</span>
+              <span>Explore environment →</span>
             </Link>
           ); })}
         </div>
