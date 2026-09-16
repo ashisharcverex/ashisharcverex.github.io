@@ -8,3 +8,13 @@
 .transcripts{margin-top:56px}.transcript-entry summary{font-size:16px}.rollout-verdict{float:right;font:12px/1.6 monospace;color:var(--muted);margin-left:12px}.rollout-pass{color:var(--accent)}.transcript-body{max-height:65vh;overflow:auto}.transcript-entry button{font:inherit;color:var(--accent);background:var(--card);border:1px solid var(--line);border-radius:4px;cursor:pointer}
 
 .environment-requests{margin-top:56px;padding-top:28px;border-top:1px solid var(--line)}.environment-requests h2{margin:0 0 12px}.environment-requests a{color:var(--accent)}
+
+/* Share content rows across each row of environment cards. */
+.sample-card{display:grid;grid-template-rows:auto 1fr auto auto;row-gap:0;min-width:0}
+.sample-card>h2{margin:0}
+.sample-card>p{margin:12px 0 0}
+@supports (grid-template-rows:subgrid){
+  .sample-card{grid-row:span 4;grid-template-rows:subgrid}
+}
+.sample-card .trial-outcomes{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:4px}
+.sample-card .trial-outcomes>span{width:100%;max-width:22px;height:auto;aspect-ratio:1}
