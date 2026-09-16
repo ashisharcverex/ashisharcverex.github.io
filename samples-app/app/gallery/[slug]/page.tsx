@@ -21,7 +21,7 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
       <h1>{environment?.title ?? sample.category}</h1>
       <p className="lead">{environment?.description ?? description}</p>
       {environment && <div className="environment-flow" aria-label="Environment input and deliverable">
-        <div><span className="eyebrow">GIVEN</span><span>{environment.input}</span><span className="fine">Verilator in the sandbox</span></div>
+        <div><span className="eyebrow">GIVEN</span><span>{environment.input}</span></div>
         <span className="environment-arrow" aria-hidden="true">→</span>
         <div><span className="eyebrow">AGENT BUILDS</span><span>{environment.output}</span></div>
       </div>}
