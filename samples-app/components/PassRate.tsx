@@ -12,7 +12,7 @@ export function parsePassRate(summary: string) {
 export function PassRate({ passed, total }: { passed: number; total: number }) {
   const percentage = Math.round(passed / total * 100);
   return <div className="pass-rate" aria-label={`Opus 5 calibration: ${percentage} percent task pass rate, ${passed} of ${total} attempts passed`}>
-    <div className="calibration-label">MODEL CALIBRATION</div>
+    <div className="calibration-label">Calibrated Sample</div>
     <div className="pass-rate-heading">
       <div><strong className="calibration-model">Opus 5</strong><span className="calibration-metric">Task pass rate</span></div>
       <strong className="calibration-value">{percentage}<small>%</small></strong>

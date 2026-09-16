@@ -10,7 +10,7 @@ describe('sample visuals', () => {
     expect(parsed.rate).toEqual({ passed: 2, total: 9 });
     const html = renderToStaticMarkup(<PassRate {...parsed.rate!} />);
     expect(html).toContain('2 of 9 attempts passed');
-    expect(html).toContain('MODEL CALIBRATION');
+    expect(html).toContain('Calibrated Sample');
     expect(html).toContain('Task pass rate');
     expect(html.match(/class="trial-pass"/g)).toHaveLength(2);
     expect(html.match(/class="trial-fail"/g)).toHaveLength(7);

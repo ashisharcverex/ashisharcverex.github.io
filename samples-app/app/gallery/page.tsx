@@ -21,7 +21,6 @@ export default async function Gallery() {
             <Link prefetch={false} className="sample-card" href={'/gallery/' + sample.slug} key={sample.slug}>
               <h2>{environment?.title ?? sample.category}</h2>
               <p>{environment?.description ?? description}</p>
-              <p className="fine">Sample task: {sample.title}</p>
               {rate && <PassRate {...rate} />}
               <span>Explore environment →</span>
             </Link>
