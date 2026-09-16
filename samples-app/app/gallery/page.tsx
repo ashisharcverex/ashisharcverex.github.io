@@ -30,6 +30,10 @@ export default async function Gallery() {
       ) : (
         <section className="empty"><span className="empty-icon" aria-hidden="true">[ &nbsp; ]</span><h2>Samples coming soon.</h2><a href="mailto:ashish@arcverex.io">Contact →</a></section>
       )}
+      <section className="environment-requests">
+        <h2>More to come.</h2>
+        <a href="mailto:ashish@arcverex.io">We take requests →</a>
+      </section>
     </>
   );
 }
