@@ -1,0 +1,3 @@
+# The samples application runs on its own server, not GitHub Pages.
+exclude:
+  - samples-app

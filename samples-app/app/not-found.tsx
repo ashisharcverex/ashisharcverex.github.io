@@ -1,0 +1,1 @@
+export default function NotFound() { return <section className="empty"><h1>Sample not found.</h1><p>This sample may no longer be available.</p><a href="/gallery">Back to the collection →</a></section>; }

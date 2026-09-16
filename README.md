@@ -72,3 +72,14 @@ schematic on the left with the isometric chip on the right.
 
 GitHub Pages serves the files directly. Publishing changes to `main` deploys the
 site; `CNAME` retains the `arcverex.io` domain.
+
+## Private sample gallery
+
+The separate [samples application](samples-app/README.md) provides email-verified
+access, broker referral links, private database-backed sample pages, and access
+notifications to ashish@arcverex.io. It starts with an empty collection.
+
+Deploy `samples-app` as a separate Next.js project at `samples.arcverex.io`;
+GitHub Pages continues serving this root website. Account and DNS setup are
+documented in the application's README. Do not commit private sample material
+to this public repository.

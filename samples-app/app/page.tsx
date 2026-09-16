@@ -1,0 +1,5 @@
+import Link from 'next/link';
+import { authConfigured } from '@/lib/config';
+export default function Home() {
+  return <div className="landing"><section><p className="eyebrow">THE ENGINEERING BEHIND THE ENVIRONMENTS</p><h1>Real hardware tasks.<br /><span>Room to explore.</span></h1><p className="lead">Take a closer look at the reinforcement learning environments we’re building for hardware engineering.</p><div className="topics"><span>RTL design</span><span>Verification</span><span>Debugging</span></div></section><aside className="access-card"><span className="step">01 / ACCESS THE COLLECTION</span><h2>Start with your email.</h2><p>Verify your email to browse available samples. Anyone with the link is welcome. No password required.</p>{authConfigured() ? <Link className="button" href="/gallery" prefetch={false}>View samples <span>→</span></Link> : <div className="notice">The sample collection is being prepared. Please check back soon.</div>}<p className="fine">Arcverex records your email and sample views and receives access notifications. <Link href="/privacy">How we use this information</Link></p></aside></div>;
+}
