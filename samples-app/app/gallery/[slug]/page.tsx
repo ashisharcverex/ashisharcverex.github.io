@@ -25,9 +25,9 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
         <span className="environment-arrow" aria-hidden="true">→</span>
         <div><span className="eyebrow">AGENT BUILDS</span><span>{environment.output}</span></div>
       </div>}
+      <SampleDiagrams slug={sample.slug} />
       <p className="fine">Sample task: {sample.title}</p>
       {rate && <div className="detail-rate"><PassRate {...rate} /></div>}
-      <SampleDiagrams slug={sample.slug} />
       <details className="sample-section">
         <summary>Sample task prompt · {sample.title}</summary>
         <pre className="sample-body">{content.prompt}</pre>
