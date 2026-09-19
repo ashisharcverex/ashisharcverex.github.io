@@ -30,6 +30,13 @@ const checks: Record<string, Check[]> = {
     { status: 'Evidence pending', detail: 'Record coverage for credit limits, simultaneous sends and returns, arbitration and reset.' },
     { status: 'Validation pending', detail: 'Validate isolation and ensure conflicting verdicts or simulator failures cannot produce a pass.' },
   ],
+  'rtl-debug-ot-backpressure': [
+    { status: 'Verified replay', detail: 'The reference completes both benches on three seeds. An equivalent repair also matches every output in all six cases.' },
+    { status: 'Verified replay', detail: 'The unchanged bug, an over-fix and a wrong-module control all fail. Grading checks exit status and complete traces.' },
+    { status: 'Reviewed · follow-up', detail: 'FIFO depth now matches the documented odd-depth requirement and public wrapper. The broad diagnosis prompt and raw register stimulus still warrant further review.' },
+    { status: 'Six cases checked', detail: 'Random and backpressure benches run 4,000 and 12,000 cycles per seed. These checks establish observed coverage, not exhaustive correctness.' },
+    { status: 'Local replay verified', detail: 'Candidate builds and runtime cannot access private reference assets. Namespace probes and trace-parser tests pass. Container-runner integration remains pending.' },
+  ],
   'rtl-debug-accumulator': [
     { status: 'Evidence pending', detail: 'Reference-repair and larger-rewrite controls exist; their results need to be verified against the exact sample version.' },
     { status: 'Evidence pending', detail: 'An unrepaired-design control exists; its failure needs a matching QA record.' },

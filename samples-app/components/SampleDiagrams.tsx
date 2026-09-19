@@ -23,6 +23,12 @@ const diagrams: Record<string, [Diagram, Diagram]> = {
     { title:'QA checks',description:'Reference implementations are compared, and deliberately faulty designs probe whether the grading tests detect errors.',height:220,
       boxes:[{x:10,y:20,lines:['Independent','references']},{x:280,y:20,lines:['Side-by-side','simulation']},{x:560,y:20,lines:['Expected','Agreement'],tone:'accent'},{x:10,y:140,lines:['Deliberately','faulty designs']},{x:280,y:140,lines:['Grading','tests']},{x:560,y:140,lines:['Expected','Faults detected'],tone:'accent'}],edges:[[0,1],[1,2],[3,4],[4,5]] },
   ],
+  'rtl-debug-ot-backpressure': [
+    { title:'Grading',description:'The repair passes source checks. Candidate and reference run separately with identical stimulus. Every output must match across two benches and three seeds at FIFO depth three.',height:260,
+      boxes:[{x:10,y:20,lines:['Submitted','repair']},{x:220,y:20,lines:['Source checks +','isolated simulation']},{x:220,y:170,lines:['Reference','Separate simulation']},{x:430,y:90,lines:['Same stimulus','2 benches × 3 seeds']},{x:650,y:90,lines:['Compare every output','Every cycle must match'],tone:'accent'}],edges:[[0,1],[1,3],[2,3],[3,4]] },
+    { title:'QA checks',description:'The reference establishes complete expected traces. An alternate valid repair passes. The unchanged bug, over-fix and wrong-module controls fail. Separate namespace and trace checks validate the local replay path.',height:340,
+      boxes:[{x:10,y:20,lines:['Reference','repair']},{x:280,y:20,lines:['Both benches','All three seeds']},{x:560,y:20,lines:['Complete','Expected traces'],tone:'accent'},{x:10,y:140,lines:['Alternate valid','repair']},{x:280,y:140,lines:['Same grading','suite']},{x:560,y:140,lines:['Expected','PASS'],tone:'accent'},{x:10,y:260,lines:['Three faulty','controls']},{x:280,y:260,lines:['Same grading','suite']},{x:560,y:260,lines:['Expected','FAIL'],tone:'accent'}],edges:[[0,1],[1,2],[3,4],[4,5],[6,7],[7,8]] },
+  ],
   'rtl-debug-accumulator': [
     { title:'Grading',description:'The repair preserves the interface and passes source checks. Candidate and reference receive identical stimulus; every output must match, including through reset and idle periods.',height:260,
       boxes:[{x:10,y:20,lines:['Submitted','repair']},{x:220,y:20,lines:['Interface +','source checks']},{x:220,y:170,lines:['Hidden','reference']},{x:430,y:90,lines:['Same stimulus','Reset · activity · idle']},{x:650,y:90,lines:['Compare all outputs','Every cycle must match'],tone:'accent'}],edges:[[0,1],[1,3],[2,3],[3,4]] },

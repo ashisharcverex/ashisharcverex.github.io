@@ -32,6 +32,7 @@ export function Transcripts({ slug, entries }: { slug: string; entries: Transcri
     <h2 id="transcript-heading">Selected transcripts <span className="fine">{entries.length}</span></h2>
     <p className="fine">Opus 5 · Selected examples. Pass rates use the full calibration set.</p>
     {slug === 'sv-testbench-knock-lock' && <p className="fine">One passing run and four failure examples cover all 11 distinct missed checks. Each transcript may cover several checks.</p>}
+    {slug === 'rtl-debug-ot-backpressure' && <p className="fine">One passing repair and one example of the shared failure: changing alert logic while leaving the backpressure bug intact.</p>}
     {entries.map(entry => <Transcript key={entry.rollout_number} slug={slug} entry={entry} />)}
   </section>;
 }

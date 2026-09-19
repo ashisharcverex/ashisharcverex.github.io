@@ -18,11 +18,20 @@ describe('transcript access', () => {
     ['sv-testbench-knock-lock', [22, 14, 23, 24, 25]],
     ['rtl-design-credit-flow', [3, 1, 5]],
     ['rtl-debug-accumulator', [6, 1, 3, 4]],
+    ['rtl-debug-ot-backpressure', [7, 1]],
   ] as const)('lists only selected examples, passing first, for %s', async (slug, selected) => {
     mocks.db.mockReturnValue(vi.fn().mockResolvedValue(Array.from({length:26}, (_,i) => ({rollout_number:i+1,passed:i+1===selected[0]}))));
     const rows = await listTranscripts(slug);
     expect(rows.map(r => r.rollout_number)).toEqual(selected);
     expect(rows[0].passed).toBe(true);
+  });
+
+  it('numbers the ten debug runs from zero and labels the selected failure', async () => {
+    mocks.db.mockReturnValue(vi.fn().mockResolvedValue([{ rollout_number: 1, passed: false }, { rollout_number: 7, passed: true }]));
+    const rows = await listTranscripts('rtl-debug-ot-backpressure');
+    expect(rows.map(r => r.display_number)).toEqual([6, 0]);
+    expect(rows[1].failure_title).toBe('Alert logic detour');
+    expect(await getTranscript('rtl-debug-ot-backpressure', 2)).toBeUndefined();
   });
 
   it('does not query transcripts without a verified viewer', async () => {

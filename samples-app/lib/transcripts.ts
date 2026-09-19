@@ -9,6 +9,7 @@ const selectedRollouts = new Map<string, readonly number[]>([
   ['sv-testbench-knock-lock', [22, 14, 23, 24, 25]],
   ['rtl-design-credit-flow', [3, 1, 5]],
   ['rtl-debug-accumulator', [6, 1, 3, 4]],
+  ['rtl-debug-ot-backpressure', [7, 1]],
 ]);
 const missedChecks = new Map<string, string[]>([["sv-testbench-knock-lock:14", ["Idle view stability", "Candidate cleared by reset", "Failure count after reset", "Restart discards recording"]], ["sv-testbench-knock-lock:23", ["Confirmation length match", "Confirmation tolerance", "Candidate cleared by reset", "Restart discards recording", "Candidate survives short recording"]], ["sv-testbench-knock-lock:24", ["Confirmed pattern length updates"]], ["sv-testbench-knock-lock:25", ["Candidate survives lockout", "Minimum recording length", "Reset edge timing", "Candidate survives short recording"]]]);
 const failureTitles = new Map<string, string>([
@@ -21,6 +22,7 @@ const failureTitles = new Map<string, string>([
   ['sv-testbench-apb-registers:9', 'Setup sequence missed'],
   ['rtl-design-credit-flow:1', 'Look-ahead arbitration'],
   ['rtl-design-credit-flow:5', 'Grant/credit timing'],
+  ['rtl-debug-ot-backpressure:1', 'Alert logic detour'],
   ['rtl-debug-accumulator:1', 'Early completion'],
   ['rtl-debug-accumulator:3', 'Relaunch timing mismatch'],
   ['rtl-debug-accumulator:4', 'Combinational busy'],
@@ -33,7 +35,7 @@ export async function listTranscripts(slug: string) {
     JOIN samples s ON s.slug = t.sample_slug
     WHERE s.slug = ${slug} AND s.published = true ORDER BY t.rollout_number`;
   return selected.flatMap(number => rows.filter(row => row.rollout_number === number))
-    .map(row => ({ ...row, display_number: slug === 'sv-testbench-knock-lock' ? knockLockRuns.indexOf(row.rollout_number) : row.rollout_number, missed_checks: missedChecks.get(`${slug}:${row.rollout_number}`), failure_title: row.passed ? undefined : failureTitles.get(`${slug}:${row.rollout_number}`) }));
+    .map(row => ({ ...row, display_number: slug === 'sv-testbench-knock-lock' ? knockLockRuns.indexOf(row.rollout_number) : slug === 'rtl-debug-ot-backpressure' ? row.rollout_number - 1 : row.rollout_number, missed_checks: missedChecks.get(`${slug}:${row.rollout_number}`), failure_title: row.passed ? undefined : failureTitles.get(`${slug}:${row.rollout_number}`) }));
 }
 export async function getTranscript(slug: string, number: number) {
   await requireViewer();

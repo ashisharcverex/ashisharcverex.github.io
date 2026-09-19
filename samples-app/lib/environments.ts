@@ -14,7 +14,7 @@ export const environments: Record<string, { title: string; description: string; 
   'RTL debug': {
     title: 'RTL Debug',
     description: 'Diagnose and repair faulty RTL while preserving its interface and required behavior.',
-    input: 'Specification + faulty RTL + Sim Tool',
+    input: 'RTL tree + documentation + Sim Tool',
     output: 'Repaired RTL',
   },
 };
