@@ -10,7 +10,7 @@ export default async function Gallery() {
   const samples = await listSamples();
   return (
     <>
-      <div className="section-top"><p className="eyebrow">THE COLLECTION</p><UserButton /></div>
+      <div className="section-top" style={{ justifyContent: 'flex-end' }}><UserButton /></div>
       <h1>Environments</h1>
       {samples.length ? (
         <div className="grid">
