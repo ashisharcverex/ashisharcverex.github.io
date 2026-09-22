@@ -18,3 +18,12 @@ export const environments: Record<string, { title: string; description: string; 
     output: 'Repaired RTL',
   },
 };
+
+export const environmentsInDevelopment = [
+  'Debug',
+  'RTL Design',
+  'Virtual Bring-Up',
+  'PPA Optimization',
+  'Multi-Clock Appliance',
+  'Hardware Toolchains',
+] as const;

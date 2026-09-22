@@ -7,7 +7,7 @@ export default function Home() {
       <section>
         <p className="eyebrow">ENVIRONMENT SAMPLES</p>
         <h1>Hardware tasks.<br /><span>RL environments.</span></h1>
-        <div className="topics"><span>RTL design</span><span>Verification</span><span>Debugging</span></div>
+        <div className="topics"><span>Testbench Generation</span></div>
       </section>
       <aside className="access-card">
         <span className="step">01 / ACCESS</span>

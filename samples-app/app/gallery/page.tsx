@@ -1,4 +1,4 @@
-import { environments } from '@/lib/environments';
+import { environments, environmentsInDevelopment } from '@/lib/environments';
 import Link from 'next/link';
 import { PassRate, parsePassRate } from '@/components/PassRate';
 import { UserButton } from '@clerk/nextjs';
@@ -30,7 +30,10 @@ export default async function Gallery() {
         <section className="empty"><span className="empty-icon" aria-hidden="true">[ &nbsp; ]</span><h2>Samples coming soon.</h2><a href="mailto:ashish@arcverex.io">Contact →</a></section>
       )}
       <section className="environment-requests">
-        <h2>More to come.</h2>
+        <h2>Environments in Development</h2>
+        <ul className="development-grid">
+          {environmentsInDevelopment.map(title => <li key={title}>{title}</li>)}
+        </ul>
         <a href="mailto:ashish@arcverex.io">We take requests →</a>
       </section>
     </>
