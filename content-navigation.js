@@ -5,7 +5,11 @@
   const panels = [...document.querySelectorAll('[data-content]')];
   const links = [...document.querySelectorAll('[data-content-link]')];
   const overview = document.querySelector('[data-scene-view="overview"]');
-  const sectionFromURL = () => location.hash === '#careers' ? 'careers' : 'about';
+  const sectionLabels = { about: 'About', careers: 'Careers', contact: 'Contact' };
+  const sectionFromURL = () => {
+    const section = location.hash.slice(1);
+    return Object.hasOwn(sectionLabels, section) ? section : 'about';
+  };
 
   function showSection(section, focus = false) {
     for (const panel of panels) {
@@ -17,8 +21,8 @@
       if (link.dataset.contentLink === section) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     }
-    document.title = section === 'careers' ? 'Careers — arcverex' : 'arcverex';
-    overview.textContent = section === 'careers' ? 'Careers' : 'About';
+    document.title = section === 'about' ? 'arcverex' : `${sectionLabels[section]} — arcverex`;
+    overview.textContent = sectionLabels[section];
     window.dispatchEvent(new CustomEvent('arcverex:sectionchange', { detail: { section } }));
     if (focus) {
       document.querySelector(`[data-content="${section}"] h1`).focus({ preventScroll: true });

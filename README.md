@@ -36,8 +36,8 @@ compiler. Its displayed vectors come from the same gate equations that drive the
 schematic. The completion count comes from checking all 1,024 ALU combinations
 in JavaScript against independent arithmetic and bitwise reference expressions.
 
-- `index.html` contains About, Careers, and accessible animation controls.
-- `content-navigation.js` switches the copy in place, with `#about` / `#careers`
+- `index.html` contains About, Careers, Contact for labs, and accessible animation controls.
+- `content-navigation.js` switches the copy in place, with `#about` / `#careers` / `#contact`
   links and browser history. The canvas, terminal, clock, and pause state persist.
 - `careers.html` redirects older links to `/#careers`.
 - `site.css` defines the open text layout and typography.
@@ -49,7 +49,7 @@ in JavaScript against independent arithmetic and bitwise reference expressions.
 - `terminal-scene.css` styles the terminal and its inline SVG robot.
 - `chip-scene.css` defines the light/dark palettes and responsive composition.
 
-About and Careers occupy the same space; switching them does not move the header
+About, Careers, and Contact occupy the same space; switching them does not move the header
 or restart the background. Only the selected copy is exposed to assistive technology.
 
 Below 1200px, the view switch shows the selected copy, the terminal, or the schematic.

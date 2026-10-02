@@ -18,7 +18,7 @@
   width: 100%;
 }
 
-/* Both copies share one grid cell, preserving the header and navigation position.
+/* All copies share one grid cell, preserving the header and navigation position.
    The inactive copy is invisible, unfocusable, and absent from the accessibility tree. */
 .page-copy {
   grid-area: 1 / 1;
