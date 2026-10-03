@@ -9,7 +9,9 @@ export async function listSamples() {
       WHEN 'SV testbench' THEN 1
       WHEN 'RTL design' THEN 2
       WHEN 'RTL debug' THEN 3
-      ELSE 4 END, title`;
+      WHEN 'Post-silicon' THEN 5
+      WHEN 'PPA' THEN 4
+      ELSE 6 END, title`;
 }
 export async function getSample(slug: string) {
   await requireViewer();

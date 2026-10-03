@@ -1,3 +1,4 @@
+import { ScoreCalibration } from '@/components/ScoreCalibration';
 import { environments, environmentsInDevelopment } from '@/lib/environments';
 import Link from 'next/link';
 import { PassRate, parsePassRate } from '@/components/PassRate';
@@ -22,6 +23,7 @@ export default async function Gallery() {
               <h2>{environment?.title ?? sample.category}</h2>
               <p>{environment?.description ?? description}</p>
               {rate && <PassRate {...rate} />}
+              <ScoreCalibration slug={sample.slug} />
               <span>Explore environment →</span>
             </Link>
           ); })}

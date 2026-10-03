@@ -19,7 +19,8 @@ function Transcript({ slug, entry }: { slug: string; entry: TranscriptEntry }) {
     finally { pending.current = false; setLoading(false); }
   }
   return <details className="sample-section transcript-entry" onToggle={event => { if (event.currentTarget.open) void load(); }}>
-    <summary>Rollout {displayNumber}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.passed ? 'Passed' : entry.failure_title ?? 'Reference mismatch'}</span></summary>
+    <summary>Rollout {displayNumber}<span className={`rollout-verdict ${entry.passed ? 'rollout-pass' : ''}`}>{entry.outcome_title ?? (entry.passed ? 'Passed' : entry.failure_title ?? 'Reference mismatch')}</span></summary>
+    {entry.failure_modes?.length ? <div className="transcript-misses"><p className="fine">Observed failure mechanisms · reviewer annotations</p><ul>{entry.failure_modes.map(mode => <li key={mode.id}><strong>{mode.title}.</strong> {mode.detail}</li>)}</ul></div> : null}
     {entry.missed_checks?.length ? <div className="transcript-misses"><p className="fine">Observed checks missed</p><ul>{entry.missed_checks.map(check => <li key={check}>{check}</li>)}</ul></div> : null}
     {loading && <p role="status">Loading transcript…</p>}
     {error && <p role="alert">{error} <button type="button" onClick={() => void load()}>Retry</button></p>}
@@ -30,7 +31,7 @@ export function Transcripts({ slug, entries }: { slug: string; entries: Transcri
   if (!entries.length) return null;
   return <section className="transcripts" aria-labelledby="transcript-heading">
     <h2 id="transcript-heading">Selected transcripts <span className="fine">{entries.length}</span></h2>
-    <p className="fine">Opus 5 · Selected examples. Pass rates use the full calibration set.</p>
+    {slug !== 'sv-testbench-vu-meter' && slug !== 'sv-testbench-dictionary-coder' && slug !== 'sv-testbench-dali-gear' && slug !== 'ppa-priority-selector' && slug !== 'sv-testbench-rational-evaluator' && slug !== 'postsilicon-axiom-dual-queue' && <p className="fine">Opus 5 · Selected examples. Pass rates use the full calibration set.</p>}
     {slug === 'sv-testbench-knock-lock' && <p className="fine">One passing run and four failure examples cover all 11 distinct missed checks. Each transcript may cover several checks.</p>}
     {slug === 'rtl-debug-ot-backpressure' && <p className="fine">One passing repair and one example of the shared failure: changing alert logic while leaving the backpressure bug intact.</p>}
     {entries.map(entry => <Transcript key={entry.rollout_number} slug={slug} entry={entry} />)}

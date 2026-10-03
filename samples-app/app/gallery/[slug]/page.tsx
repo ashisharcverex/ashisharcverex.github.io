@@ -1,3 +1,5 @@
+import { ScoreCalibration } from '@/components/ScoreCalibration';
+import { PPAResults } from '@/components/PPAResults';
 import { listTranscripts } from '@/lib/transcripts';
 import { Transcripts } from '@/components/Transcripts';
 import { environments } from '@/lib/environments';
@@ -29,6 +31,7 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
       <h2>Sample task</h2>
       <p className="fine">{sample.title}</p>
       {rate && <div className="detail-rate"><PassRate {...rate} /></div>}
+      {sample.category === 'PPA' && <div className="detail-rate"><ScoreCalibration slug={sample.slug} /></div>}
       <details className="sample-section">
         <summary>Sample task prompt · {sample.title}</summary>
         <pre className="sample-body">{content.prompt}</pre>
@@ -38,6 +41,7 @@ export default async function Sample({ params }: { params: Promise<{ slug: strin
         <p className="fine">{content.rtlPath}</p>
         <pre className="sample-body">{content.rtl}</pre>
       </details>}
+      <PPAResults slug={sample.slug} />
       <Transcripts slug={sample.slug} entries={transcripts} />
       <ViewTracker slug={sample.slug} />
     </article>
