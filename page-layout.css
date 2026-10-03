@@ -1,4 +1,4 @@
-/* Open page composition. Narrow screens switch between copy and art. */
+/* Open page composition. Narrow screens show the page copy. */
 .page-shell {
   display: flex;
   flex-direction: column;
@@ -64,19 +64,6 @@
   .page-shell .header { margin: 0 0 28px; }
   .page-shell .header .logo { width: min(300px, 72vw); }
   .page-shell .header b { font-size: 13px; }
-  .page-shell .scene-views:not([hidden]) { margin-top: 16px; }
-  .page-shell .mobile-scene-space { display: none; margin-top: 12px; }
-
-  :root[data-scene-view="terminal"] .page-shell .mobile-scene-space,
-  :root[data-scene-view="schematic"] .page-shell .mobile-scene-space {
-    display: block;
-  }
-
-  :root[data-scene-view="terminal"] .page-shell .columns,
-  :root[data-scene-view="schematic"] .page-shell .columns {
-    display: none;
-  }
-
   .page-shell .site-nav { margin-top: 20px; }
 }
 
@@ -85,8 +72,6 @@
   .page-shell .header { margin-bottom: 20px; }
   .page-shell .header .logo { width: min(240px, 64vw); }
   .page-shell .header .logo-wrap { margin-bottom: 6px; }
-  .page-shell .scene-views:not([hidden]) { margin-top: 12px; }
-  .page-shell .scene-views button { min-height: 32px; padding-block: 6px; }
   .page-title { margin-bottom: 16px; }
   .page-shell .site-nav { margin-top: 12px; }
 }

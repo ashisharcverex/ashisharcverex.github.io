@@ -6,8 +6,6 @@
   const canvas = document.getElementById('chip-scene');
   const themeButton = document.querySelector('.theme-toggle');
   const motionButton = document.querySelector('.motion-toggle');
-  const mobileSpace = document.querySelector('.mobile-scene-space');
-  const sceneViews = document.querySelector('.scene-views');
   const systemTheme = matchMedia('(prefers-color-scheme: dark)');
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
   const mobileLayout = matchMedia('(max-width: 1199px)');
@@ -28,27 +26,14 @@
   if (!ctx) return;
   const schematic = window.ArcverexSchematic.create();
   const terminal = window.ArcverexTerminal.create(document.querySelector('.bg-art'));
-  sceneViews.hidden = false;
 
-  let width = 0, height = 0, mobile = false, mobileVisible = true;
-  let mobileView = 'overview', schematicScene, terminalScene;
+  let width = 0, height = 0, mobile = false;
+  let schematicScene, terminalScene;
   let frame = 0, lastTime = 0, elapsed = 0, userPaused = false;
   let resizeQueued = false, sceneDirty = true;
 
-  function positionMobile() {
-    const rect = mobileSpace.getBoundingClientRect();
-    const cy = rect.top + rect.height / 2;
-    mobileVisible = mobileView !== 'overview' && rect.bottom > 0 && rect.top < height;
-    schematicScene.cy = cy + 12;
-    terminalScene.y = cy - terminalScene.height / 2;
-    terminalScene.visible = mobileView === 'terminal' && mobileVisible;
-    terminal.layout(terminalScene);
-  }
-
   function resize() {
     resizeQueued = false;
-    root.dataset.sceneView = mobileView;
-    mobileSpace.dataset.view = mobileView;
     width = root.clientWidth;
     height = innerHeight;
     mobile = mobileLayout.matches;
@@ -58,28 +43,9 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     if (mobile) {
-      // The selected animation uses the space left by the header and navigation.
-      // Copy gets its own view, so the artwork never adds a long block above it.
-      mobileSpace.style.height = '0px';
-      if (mobileView !== 'overview') {
-        const header = document.querySelector('.header');
-        const nav = document.querySelector('.site-nav');
-        const outerHeight = element => {
-          const style = getComputedStyle(element);
-          return element.getBoundingClientRect().height + parseFloat(style.marginTop) + parseFloat(style.marginBottom);
-        };
-        const bodyStyle = getComputedStyle(document.body);
-        const fixedHeight = outerHeight(header) + outerHeight(nav) +
-          parseFloat(bodyStyle.paddingTop) + parseFloat(bodyStyle.paddingBottom);
-        mobileSpace.style.height = `${clamp(height - fixedHeight, 196, 476)}px`;
-      }
-      const rect = mobileSpace.getBoundingClientRect();
-      const panelWidth = Math.min(428, width - 40);
-      terminalScene = { x: (width - panelWidth) / 2, y: 0, width: panelWidth,
-        height: Math.max(0, Math.min(460, rect.height - 16)), visible: mobileView === 'terminal' };
-      schematicScene = { cx: width / 2, cy: 0,
-        scale: Math.max(0, Math.min(1.08, (width - 34) / 450, (rect.height - 12) / 434)) };
-      positionMobile();
+      // Keep narrow screens focused on the page copy and pause the artwork.
+      terminalScene = { x: 0, y: 0, width: 0, height: 0, visible: false };
+      terminal.layout(terminalScene);
     } else {
       const content = document.querySelector('.columns').getBoundingClientRect();
       const gutter = Math.min(content.left, width - content.right);
@@ -91,7 +57,6 @@
         width: panelWidth, height: panelHeight, visible: true };
       schematicScene = { cx: width - gutter / 2, cy,
         scale: Math.min(1.28, (gutter - 38) / (450 * 0.86), (height - 100) / (434 * 0.86)) };
-      mobileVisible = true;
       terminal.layout(terminalScene);
     }
     sceneDirty = true;
@@ -100,17 +65,15 @@
 
   function render() {
     ctx.clearRect(0, 0, width, height);
-    if (mobile && !mobileVisible) return;
+    if (mobile) { sceneDirty = false; return; }
     const state = window.ArcverexSession.frame(elapsed, reducedMotion.matches);
     terminal.draw(state);
-    if (!mobile || mobileView === 'schematic') {
-      schematic.draw(ctx, schematicScene, state, { dark: isDark() }, mobile);
-    }
+    schematic.draw(ctx, schematicScene, state, { dark: isDark() }, false);
     sceneDirty = false;
   }
 
   function isRunning() {
-    return !userPaused && !reducedMotion.matches && !document.hidden && mobileVisible;
+    return !userPaused && !reducedMotion.matches && !document.hidden && !mobile;
   }
 
   function tick(now) {
@@ -126,7 +89,7 @@
     if (frame) cancelAnimationFrame(frame);
     frame = 0;
     lastTime = 0;
-    motionButton.hidden = reducedMotion.matches || (mobile && mobileView === 'overview');
+    motionButton.hidden = reducedMotion.matches || mobile;
     motionButton.setAttribute('aria-pressed', String(userPaused));
     motionButton.setAttribute('aria-label', `${userPaused ? 'Resume' : 'Pause'} background animation`);
     motionButton.querySelector('span').textContent = `${userPaused ? 'Resume' : 'Pause'} animation`;
@@ -135,35 +98,10 @@
   }
 
   motionButton.addEventListener('click', () => { userPaused = !userPaused; syncPlayback(); });
-  sceneViews.addEventListener('click', event => {
-    const button = event.target.closest('[data-scene-view]');
-    if (!button || button.dataset.sceneView === mobileView) return;
-    mobileView = button.dataset.sceneView;
-    sceneViews.querySelectorAll('button').forEach(view => view.setAttribute('aria-pressed', String(view === button)));
-    resize();
-  });
-  window.addEventListener('arcverex:sectionchange', () => {
-    // Desktop swaps need no playback or canvas changes. On a narrow screen,
-    // reveal the selected copy while retaining elapsed time and the pause state.
-    if (!mobile || mobileView === 'overview') return;
-    mobileView = 'overview';
-    sceneViews.querySelectorAll('button').forEach(view => {
-      view.setAttribute('aria-pressed', String(view.dataset.sceneView === mobileView));
-    });
-    resize();
-  });
   window.addEventListener('resize', () => {
     if (resizeQueued) return;
     resizeQueued = true;
     requestAnimationFrame(resize);
-  }, { passive: true });
-  window.addEventListener('scroll', () => {
-    if (!mobile) return;
-    const wasVisible = mobileVisible;
-    positionMobile();
-    sceneDirty = true;
-    if (mobileVisible !== wasVisible) syncPlayback();
-    else if (!isRunning()) render();
   }, { passive: true });
   document.addEventListener('visibilitychange', syncPlayback);
   reducedMotion.addEventListener('change', () => { sceneDirty = true; syncPlayback(); });

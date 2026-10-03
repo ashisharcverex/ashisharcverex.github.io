@@ -52,11 +52,11 @@ in JavaScript against independent arithmetic and bitwise reference expressions.
 About, Careers, and Contact occupy the same space; switching them does not move the header
 or restart the background. Only the selected copy is exposed to assistive technology.
 
-Below 1200px, the view switch shows the selected copy, the terminal, or the schematic.
-The copy is selected initially; an illustration uses the available viewport space
-when selected. The animation pauses while reading the copy, when the tab is
-hidden, or when the illustration is offscreen. The pause button freezes both scenes;
-`prefers-reduced-motion` shows a completed, static session, including the robot.
+Below 1200px, only the page copy and main navigation are shown; the animation
+view tabs are removed and playback pauses. On wider screens, both illustrations
+remain visible. The animation also pauses when the tab is hidden. The pause
+button freezes both scenes; `prefers-reduced-motion` shows a completed, static
+session, including the robot.
 Schematic paths are constructed once, and transcript updates are limited to 24Hz.
 Canvas density is capped to limit rendering cost on large displays.
 
